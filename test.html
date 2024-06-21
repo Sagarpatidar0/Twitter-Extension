@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="content.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="popup-content">
+      <div class="popup-header">
+        <h2>Twitter AI</h2>
+        <button id="close-popup">X</button>
+      </div>
+      <div class="popup-body">
+        <div class="ai-tweet">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
+          laborum ipsam vero non minus dolor ut. Suscipit odio eligendi iusto
+          quidem officiis expedita, aspernatur dolore animi non quos, maiores
+          dolores! Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Dolores laborum ipsam vero non minus dolor ut. Suscipit odio eligendi
+          iusto quidem officiis expedita, aspernatur dolore animi non quos,
+          maiores dolores!
+        </div>
+        <button id="submit-tweet" onclick="removePopup()">Copy</button>
+      </div>
+
+      <button
+        data-popover-target="popover-hover"
+        data-popover-trigger="hover"
+        type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Hover popover
+      </button>
+
+      <div
+        data-popover
+        id="popover-hover"
+        role="tooltip"
+        class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+      >
+        <div
+          class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+        >
+          <h3 class="font-semibold text-gray-900 dark:text-white">
+            Popover hover
+          </h3>
+        </div>
+        <div class="px-3 py-2">
+          <p>And here's some amazing content. It's very engaging. Right?</p>
+        </div>
+        <div data-popper-arrow></div>
+      </div>
+
+      <button
+        data-popover-target="popover-click"
+        data-popover-trigger="click"
+        type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Click popover
+      </button>
+
+      <div
+        data-popover
+        id="popover-click"
+        role="tooltip"
+        class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+      >
+        <div
+          class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+        >
+          <h3 class="font-semibold text-gray-900 dark:text-white">
+            Popover click
+          </h3>
+        </div>
+        <div class="px-3 py-2">
+          <p>And here's some amazing content. It's very engaging. Right?</p>
+        </div>
+        <div data-popper-arrow></div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  </body>
+</html>

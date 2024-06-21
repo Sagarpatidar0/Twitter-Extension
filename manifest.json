@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Twitter",
+  "version": "1.0",
+  "description": "Extension for auto reply to tweets with help of AI",
+  "icons": {
+    "128": "images/icon.png"
+  },
+  "permissions": ["activeTab", "scripting", "tabs", "storage"],
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["js/webflow.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://x.com/compose/post"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "images/icon.png"
+    }
+  },
+  "host_permissions": ["https://x.com/*", "https://x.com/"]
+}
