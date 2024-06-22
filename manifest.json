@@ -10,17 +10,19 @@
   "background": {
     "service_worker": "js/background.js"
   },
-  "web_accessible_resources": [
-    {
-      "resources": ["js/webflow.js"],
-      "matches": ["<all_urls>"]
-    }
-  ],
   "content_scripts": [
     {
       "matches": ["https://x.com/compose/post"],
-      "js": ["content.js"],
-      "css": ["content.css"]
+      "js": ["content.js"]
+    },
+    {
+      "matches": ["https://x.com/*"],
+      "css": ["content.css"]}
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["flowbite/flowbite.min.css", "flowbite/flowbite.min.js"],
+      "matches": ["<all_urls>"]
     }
   ],
   "action": {

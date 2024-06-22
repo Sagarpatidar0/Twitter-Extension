@@ -1,41 +1,26 @@
 (() => {
   // alert("Hello from your Chrome extension content!");
 
-  const cssUrl =
-    "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css";
-
-  // Create a <link> element
-  let linkElement = document.createElement("link");
+  // Inject Flowbite CSS
+  const flowbiteCssUrl = chrome.runtime.getURL("flowbite/flowbite.min.css");
+  const linkElement = document.createElement("link");
   linkElement.rel = "stylesheet";
-  linkElement.href = cssUrl;
-
-  // Append the <link> element to the <head> of the document
+  linkElement.href = flowbiteCssUrl;
   document.head.appendChild(linkElement);
-  linkElement.onload = () => {
-    console.log(`CSS stylesheet loaded successfully from ${cssUrl}`);
+
+  // Inject Flowbite JavaScript
+  const flowbiteJsUrl = chrome.runtime.getURL("flowbite/flowbite.min.js");
+  const scriptElement = document.createElement("script");
+  scriptElement.src = flowbiteJsUrl;
+  document.head.appendChild(scriptElement);
+
+  
+  scriptElement.onload = () => {
+    console.log("Flowbite script loaded successfully.");
   };
 
- // Define the URL of the CDN script you want to inject
-const cdnUrl = "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js";
+  // ------------------------ Button  ------------------------
 
-// Create a <script> element
-let scriptElement = document.createElement("script");
-scriptElement.src = cdnUrl;
-
-// Optionally, if the CDN script requires specific attributes or properties
-// you can set them before appending to the document.
-scriptElement.async = true;  // Example: Load asynchronously
-
-// Append the <script> element to the <head> of the document
-document.head.appendChild(scriptElement);
-
-// Optionally, if you want to do something after the script has loaded
-scriptElement.onload = () => {
-    console.log(`CDN script loaded successfully from ${cdnUrl}`);
-};
-
-
-  // ------------------------ visual  ------------------------
   let tablist;
   if (!tablist) {
     tablist = document.getElementsByClassName(
@@ -50,22 +35,13 @@ scriptElement.onload = () => {
 
     newDiv.innerHTML = `
     <div class="new-content">
-        <button id="x-ai-replay" data-popover-target="popover-click" data-popover-trigger="click" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Click popover</button>
-
-      <div data-popover id="popover-click" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
-      <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-        <h3 class="font-semibold text-gray-900 dark:text-white">Popover click</h3>
-      </div>
-    <div class="px-3 py-2">
-        <p>And here's some amazing content. It's very engaging. Right?</p>
-    </div>
-    <div data-popper-arrow></div>
-</div>
+        <button id="x-ai-replay" data-popover-target="popover-left" data-popover-placement="left" type="button" class="text-white mb-3 me-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">AI Replay</button>
     </div>
   `;
 
     tablist.appendChild(newDiv);
     console.log("visual added");
+
   }
 
   // ------------------------ popup  ------------------------
@@ -78,27 +54,40 @@ scriptElement.onload = () => {
       const removePopup = () => {
         console.log("clicked");
       };
-
+      const btn = document.getElementById("x-ai-replay");
       popup.className = "popup";
+      popup.style.position = "absolute";
+      if(btn) {
+        const rect = btn.getBoundingClientRect();
+        popup.style.left = rect.left + "px";
+        popup.style.top = (rect.top + 140) + "px";
+      }
       popup.innerHTML = `
-    <div class="popup-content">
+      <div      data-popover      id="popover-left"      role="tooltip"      class="absolute z-10 inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 opacity-100 visible"    >
       <div class="popup-header">
-        <h2>Twitter AI</h2>
         <button id="close-popup">X</button>
       </div>
-      <div class="popup-body">
-        <div class="ai-tweet">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
-          laborum ipsam vero non minus dolor ut. Suscipit odio eligendi iusto
-          quidem officiis expedita, aspernatur dolore animi non quos, maiores
-          dolores! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Dolores laborum ipsam vero non minus dolor ut. Suscipit odio eligendi
-          iusto quidem officiis expedita, aspernatur dolore animi non quos,
-          maiores dolores!
-        </div>
-        <button id="removeBtn" onclick="removePopup()">Copy</button>
+      <div        class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"      >
+        <h3 class="font-semibold text-gray-900 dark:text-white">
+          Twitter AI
+        </h3>
       </div>
-    </div>
+      <div class="px-3 py-2">
+        <p>And here's some amazing content. It's very engaging. Right?And here's some amazing content. It's very engaging. Right?And here's some amazing content. It's very engaging. Right?</p>
+      </div>
+       <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            <option>Profile 1</option>
+            <option>Profile 2</option>
+            <option>Profile 3</option>
+        </select>
+         <div class="flex justify-end space-x-4 mt-4 mb-2 pr-1">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Regenerate
+            </button>
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Copy
+            </button>
+        </div>
   `;
 
       body.appendChild(popup);
@@ -152,7 +141,7 @@ scriptElement.onload = () => {
       }
       console.log(extractedText);
       // makeApiCall(extractedText);
-      // openPopup();
+      openPopup();
     });
   }
 })();
