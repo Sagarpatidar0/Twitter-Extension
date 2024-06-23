@@ -91,7 +91,7 @@ const LoginForm = () => {
   return (
     <div className="flex flex-col items-center justify-center max-h-screen bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xs">
-        <h1 className="text-2xl font-bold text-center mb-4 text-orange-600">
+        <h1 className="text-2xl font-bold text-center mb-4 text-blue-500">
           Login
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -110,7 +110,7 @@ const LoginForm = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
               required
@@ -131,7 +131,7 @@ const LoginForm = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
               required
@@ -142,10 +142,10 @@ const LoginForm = () => {
           </div>
           <button
             type="submit"
-            className={`w-full py-2 rounded-md text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 ${
+            className={`w-full py-2 rounded-md text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 ${
               loading
-                ? "bg-orange-300 cursor-not-allowed"
-                : "bg-orange-500 hover:bg-orange-600"
+                ? "bg-blue-300 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
             }`}
             disabled={loading}
           >
@@ -180,7 +180,7 @@ const LoginForm = () => {
         </form>
         <p className="text-center text-black text-sm mt-4">
           Don't have an account?
-          <a href="#/signup" className="text-orange-600 font-medium">
+          <a href="#/signup" className="text-blue-500 font-medium">
             {" "}
             Sign up here
           </a>
@@ -189,6 +189,7 @@ const LoginForm = () => {
       </div>
     </div>
   );
+  
 };
 
 export default LoginForm;

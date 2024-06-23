@@ -164,7 +164,7 @@ var LoginForm = function LoginForm() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "bg-white p-8 rounded-lg shadow-lg w-full max-w-xs"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
-    className: "text-2xl font-bold text-center mb-4 text-orange-600"
+    className: "text-2xl font-bold text-center mb-4 text-blue-500"
   }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
     className: "space-y-4",
     onSubmit: handleSubmit
@@ -182,7 +182,7 @@ var LoginForm = function LoginForm() {
     onChange: function onChange(e) {
       return setEmail(e.target.value);
     },
-    className: "mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ".concat(errors.email ? "border-red-500" : "border-gray-300"),
+    className: "mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ".concat(errors.email ? "border-red-500" : "border-gray-300"),
     required: true
   }), errors.email && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "text-red-500 text-xs mt-1"
@@ -198,13 +198,13 @@ var LoginForm = function LoginForm() {
     onChange: function onChange(e) {
       return setPassword(e.target.value);
     },
-    className: "mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ".concat(errors.password ? "border-red-500" : "border-gray-300"),
+    className: "mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ".concat(errors.password ? "border-red-500" : "border-gray-300"),
     required: true
   }), errors.password && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "text-red-500 text-xs mt-1"
   }, errors.password)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     type: "submit",
-    className: "w-full py-2 rounded-md text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 ".concat(loading ? "bg-orange-300 cursor-not-allowed" : "bg-orange-500 hover:bg-orange-600"),
+    className: "w-full py-2 rounded-md text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 ".concat(loading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"),
     disabled: loading
   }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex justify-center items-center"
@@ -228,7 +228,7 @@ var LoginForm = function LoginForm() {
     className: "text-center text-black text-sm mt-4"
   }, "Don't have an account?", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     href: "#/signup",
-    className: "text-orange-600 font-medium"
+    className: "text-blue-500 font-medium"
   }, " ", "Sign up here"), ".")));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LoginForm);
