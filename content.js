@@ -13,6 +13,12 @@
       fetchQuotaRemaining();
     }
   });
+  chrome.storage.local.get("profiles", (data) => {
+    if (data.profiles) {
+      profile = data.userProfile;
+      console.log("Fetching profiles chrome storage: ", profile);
+    }
+  });
   const fetchProfiles = async (token) => {
     console.log(token, login);
     if (!token || !login) return false;
@@ -28,7 +34,6 @@
           },
         }
       );
-
       if (!response.ok) {
         throw new Error("Failed to fetch profiles");
       }
@@ -283,11 +288,11 @@
             if (login && quotaRemaining > 0) {
               quotaRemaining--;
               makeApiCall(extractedText);
-            }else if(quotaRemaining === 0){
+            } else if (quotaRemaining === 0) {
               document.getElementById("ai-reply-text").innerText = "You have exhausted your quota for today!"
               alert("You have exhausted your quota for today!");
             }
-             else {
+            else {
               alert("Please login to use this feature!");
               document.getElementById("ai-reply-text").innerText =
                 "Please login to use this feature!\n Click on the extension icon to login.";
