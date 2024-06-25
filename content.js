@@ -159,7 +159,7 @@
           )
         ) {
           const xpathExpression2 =
-            '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/section/div/div/div[1]/div/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[2]/div[2]/div/div/nav/div/div[2]/div';
+            '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/section/div/div/div[@*]/div/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[2]/div[2]/div/div/nav/div/div[2]/div';
           const result = document.evaluate(
             xpathExpression2,
             document,
