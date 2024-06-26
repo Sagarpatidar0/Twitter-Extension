@@ -25,22 +25,24 @@ export default function Footer() {
 
   const handleClick = () => {
     Navigate("/")
+    setActiveTab('home')
   }
 
   return (
     <div id="footer" className="bg-gray-50">
       <div className="footer-item">
         {!isAuthenticated ? (
-          <button
-            data-popover-target="popover-top-1"
-            data-popover-placement="top"
-            type="button"
-            className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
-          >
-            <a href="#/login">
-              <img onClick={() => setActiveTab('home')} className="w-5" src={activeTab == "home" ? "images/user-solid.svg" : "images/user-regular.svg"} alt="Home" />
-            </a>
-          </button>
+          <a href="#/login">
+            <button
+              onClick={() => setActiveTab('home')}
+              data-popover-target="popover-top-1"
+              data-popover-placement="top"
+              type="button"
+              className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
+            >
+              <img className="w-5" src={activeTab == "home" ? "images/user-solid.svg" : "images/user-regular.svg"} alt="Home" />
+            </button>
+          </a>
         ) : (
           <button
             data-popover-target="popover-top-1"
@@ -49,7 +51,7 @@ export default function Footer() {
             className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
             onClick={handleClick}
           >
-            <img onClick={() => setActiveTab('home')} className="w-5" src={activeTab == "home" ? "images/user-solid.svg" : "images/user-regular.svg"} alt="Home" />
+            <img className="w-5" src={activeTab == "home" ? "images/user-solid.svg" : "images/user-regular.svg"} alt="Home" />
           </button>
         )}
 
@@ -68,15 +70,17 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-item">
-        <button
-          data-popover-target="popover-top-2"
-          data-popover-placement="top"
-          type="button"
-          className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
-        >
-          <a href="#/profile">
-            <img onClick={() => setActiveTab('profiles')} className="w-6" src={activeTab == "profiles" ? "images/address-card-solid.svg" : "images/address-card-regular.svg"} alt="profiles" /></a>
-        </button>
+        <a href="#/profile">
+          <button
+            onClick={() => setActiveTab('profiles')}
+            data-popover-target="popover-top-2"
+            data-popover-placement="top"
+            type="button"
+            className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
+          >
+            <img className="w-6" src={activeTab == "profiles" ? "images/address-card-solid.svg" : "images/address-card-regular.svg"} alt="profiles" />
+          </button>
+        </a>
         <div
           data-popover
           id="popover-top-2"
@@ -92,16 +96,17 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-item">
-        <button
-          data-popover-target="popover-top-3"
-          data-popover-placement="top"
-          type="button"
-          className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
-        >
-          <a href="#/profile/create">
-            <img onClick={() => setActiveTab('create')} className="w-5" src={activeTab == "create" ? "images/square-plus-solid.svg" : "images/square-plus-regular.svg"} alt="create" />
-          </a>
-        </button>
+        <a href="#/profile/create">
+          <button
+            onClick={() => setActiveTab('create')}
+            data-popover-target="popover-top-3"
+            data-popover-placement="top"
+            type="button"
+            className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
+          >
+            <img className="w-5" src={activeTab == "create" ? "images/square-plus-solid.svg" : "images/square-plus-regular.svg"} alt="create" />
+          </button>
+        </a>
         <div
           data-popover
           id="popover-top-3"
@@ -118,11 +123,12 @@ export default function Footer() {
       </div>
       <div className="footer-item">
         <button
+          onClick={() => setActiveTab('limit')}
           data-popover-target="popover-top"
           type="button"
           className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
         >
-          <img onClick={() => setActiveTab('limit')} className="w-5" src={activeTab == "limit" ? "images/sliders-solid.svg" : "images/sliders.svg"} alt="limit" />
+          <img className="w-5" src={activeTab == "limit" ? "images/sliders-solid.svg" : "images/sliders.svg"} alt="limit" />
         </button>
         <div
           data-popover
