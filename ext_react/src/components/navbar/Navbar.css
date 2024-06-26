@@ -1,0 +1,16 @@
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #383f47;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.share {
+  width: 40px;
+  height: 40px;
+  padding-top: 10px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

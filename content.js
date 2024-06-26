@@ -14,7 +14,6 @@
   scriptElement.src = flowbiteJsUrl;
   document.head.appendChild(scriptElement);
 
-  
   scriptElement.onload = () => {
     console.log("Flowbite script loaded successfully.");
   };
@@ -31,7 +30,8 @@
   if (tablist) {
     let newDiv = document.createElement("div");
     newDiv.setAttribute("role", "presentation");
-    newDiv.className = "css-175oi2r r-14tvyh0 r-cpa5s6";
+    newDiv.className = "css-175oi2r r-14tvyh0 r-cpa5s6 ai-btn";
+    newDiv.style.position = "relative";
 
     newDiv.innerHTML = `
     <div class="new-content">
@@ -41,7 +41,6 @@
 
     tablist.appendChild(newDiv);
     console.log("visual added");
-
   }
 
   // ------------------------ popup  ------------------------
@@ -49,6 +48,7 @@
     if (!(document.getElementsByClassName("popup").length > 0)) {
       console.log("popup not found");
       const body = document.querySelector("body");
+      const aiBtn = document.getElementsByClassName("ai-btn")[0];
       let popup = document.createElement("div");
 
       const removePopup = () => {
@@ -57,10 +57,10 @@
       const btn = document.getElementById("x-ai-replay");
       popup.className = "popup";
       popup.style.position = "absolute";
-      if(btn) {
+      if (btn) {
         const rect = btn.getBoundingClientRect();
         popup.style.left = rect.left + "px";
-        popup.style.top = (rect.top + 140) + "px";
+        popup.style.top = window.scrollY + rect.top + "px";
       }
       popup.innerHTML = `
       <div      data-popover      id="popover-left"      role="tooltip"      class="absolute z-10 inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 opacity-100 visible"    >
@@ -73,7 +73,7 @@
         </h3>
       </div>
       <div class="px-3 py-2">
-        <p>And here's some amazing content. It's very engaging. Right?And here's some amazing content. It's very engaging. Right?And here's some amazing content. It's very engaging. Right?</p>
+        <p id="ai-reply-text">Hold on AI is cooking some thing  pernislized for you!</p>
       </div>
        <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
             <option>Profile 1</option>
@@ -81,10 +81,10 @@
             <option>Profile 3</option>
         </select>
          <div class="flex justify-end space-x-4 mt-4 mb-2 pr-1">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <button id="regenerate-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Regenerate
             </button>
-            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            <button id="copy-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Copy
             </button>
         </div>
@@ -95,8 +95,33 @@
       const closePopup = document.getElementById("close-popup");
       closePopup.addEventListener("click", () => {
         body.removeChild(popup);
-        // popup.style.display = "none";
       });
+
+      // ------------------------ Copy Button  ------------------------
+      const copyButton = document.getElementById("copy-btn");
+      if (copyButton) {
+        copyButton.addEventListener("click", () => {
+          navigator.clipboard.writeText(
+            document.getElementById("ai-reply-text").innerText
+          );
+          body.removeChild(popup);
+        });
+      }
+
+      // ------------------------ Regenerate Button  ------------------------
+      const regenerateButton = document.getElementById("regenerate-btn");
+      if (regenerateButton) {
+        regenerateButton.addEventListener("click", () => {
+          const textElement = document.getElementsByClassName(
+            "css-175oi2r r-eqz5dr r-16y2uox r-1wbh5a2"
+          )[0];
+          let extractedText = "";
+          if (textElement) {
+            extractedText = textElement.innerText.split("\n")[4];
+          }
+          makeApiCall(extractedText);
+        });
+      }
     }
   };
   // ------------------------ api call  ------------------------
@@ -117,8 +142,9 @@
         throw new Error("Network response was not ok" + response.statusText);
       }
 
-      const data = await response.json();
-      console.log("API call data:", data);
+      const replyMsg = await response.text();
+      console.log("API call data:", replyMsg);
+      document.getElementById("ai-reply-text").innerText = replyMsg;
     } catch (error) {
       console.error(
         "There has been a problem with your fetch operation:",
@@ -140,8 +166,8 @@
         extractedText = textElement.innerText.split("\n")[4];
       }
       console.log(extractedText);
-      // makeApiCall(extractedText);
       openPopup();
+      makeApiCall(extractedText);
     });
   }
 })();

@@ -1,0 +1,14 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+#app{
+    color: white;
+    width: 350px;
+    height: 450px;
+    margin: auto;
+    background: #23282e;
+}

@@ -6,7 +6,13 @@
   "icons": {
     "128": "images/icon.png"
   },
-  "permissions": ["activeTab", "scripting", "tabs", "storage"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs",
+    "storage",
+    "cookies"
+  ],
   "background": {
     "service_worker": "js/background.js"
   },
@@ -17,7 +23,8 @@
     },
     {
       "matches": ["https://x.com/*"],
-      "css": ["content.css"]}
+      "css": ["content.css"]
+    }
   ],
   "web_accessible_resources": [
     {
@@ -26,7 +33,7 @@
     }
   ],
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "ext_react/dist/popup.html",
     "default_icon": {
       "128": "images/icon.png"
     }
