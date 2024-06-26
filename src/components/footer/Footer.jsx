@@ -11,7 +11,7 @@ export default function Footer() {
   const [activeTab, setActiveTab] = useState("home");
   const { isAuthenticated } = useContext(AuthContext);
   const { limit, loading, logout } = useAuth();
-  const {getDashboardFromStorage, dashboard} = useStorage();
+  const { getDashboardFromStorage, dashboard } = useStorage();
   const Navigate = useNavigate();
 
 
@@ -38,7 +38,7 @@ export default function Footer() {
             className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
           >
             <a href="#/login">
-            <img className="w-5" src={activeTab == "home"?"images/user-solid.svg":"images/user-regular.svg"} alt="test" />
+              <img onClick={() => setActiveTab('home')} className="w-5" src={activeTab == "home" ? "images/user-solid.svg" : "images/user-regular.svg"} alt="Home" />
             </a>
           </button>
         ) : (
@@ -49,7 +49,7 @@ export default function Footer() {
             className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
             onClick={handleClick}
           >
-          <img className="w-5" src={activeTab == "home"?"images/user-solid.svg":"images/user-regular.svg"} alt="test" />
+            <img onClick={() => setActiveTab('home')} className="w-5" src={activeTab == "home" ? "images/user-solid.svg" : "images/user-regular.svg"} alt="Home" />
           </button>
         )}
 
@@ -75,10 +75,7 @@ export default function Footer() {
           className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
         >
           <a href="#/profile">
-          <img
-            src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/doc_1.png"
-            alt=""
-          /></a>
+            <img onClick={() => setActiveTab('profiles')} className="w-6" src={activeTab == "profiles" ? "images/address-card-solid.svg" : "images/address-card-regular.svg"} alt="profiles" /></a>
         </button>
         <div
           data-popover
@@ -102,10 +99,8 @@ export default function Footer() {
           className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
         >
           <a href="#/profile/create">
-          <img
-            src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/exclude_1.png"
-            alt=""
-          /></a>
+            <img onClick={() => setActiveTab('create')} className="w-5" src={activeTab == "create" ? "images/square-plus-solid.svg" : "images/square-plus-regular.svg"} alt="create" />
+          </a>
         </button>
         <div
           data-popover
@@ -127,16 +122,7 @@ export default function Footer() {
           type="button"
           className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
         >
-          <svg
-            className="w-4 h-4 me-2"
-            fill="red"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"></path>
-            <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"></path>
-            <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"></path>
-          </svg>
+          <img onClick={() => setActiveTab('limit')} className="w-5" src={activeTab == "limit" ? "images/sliders-solid.svg" : "images/sliders.svg"} alt="limit" />
         </button>
         <div
           data-popover
@@ -145,38 +131,38 @@ export default function Footer() {
           className="absolute z-10 invisible inline-block w-auto text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
         >
           {isAuthenticated && !loading ? (
-          <div className="p-3 space-y-2">
-            <h3 className="font-semibold text-gray-900 dark:text-white">
-              {"Today Token left: " + dashboard?.remaining_quota}
-            </h3>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
-              <div
-                className="bg-red-600 h-2.5 rounded-full"
-                style={{ width: `${(dashboard?.remaining_quota) * 100/dashboard.daily_quota}%`}}
-              ></div>
-            </div>
-            <a
-              href="#"
-              className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700"
-            >
-              Upgrade now{" "}
-              <svg
-                className="w-2 h-2 ms-1.5 rtl:rotate-180"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
+            <div className="p-3 space-y-2">
+              <h3 className="font-semibold text-gray-900 dark:text-white">
+                {"Today Token left: " + dashboard?.remaining_quota}
+              </h3>
+              <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+                <div
+                  className="bg-red-600 h-2.5 rounded-full"
+                  style={{ width: `${(dashboard?.remaining_quota) * 100 / dashboard.daily_quota}%` }}
+                ></div>
+              </div>
+              <a
+                href="#"
+                className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700"
               >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 9 4-4-4-4"
-                />
-              </svg>
-            </a>
-          </div>) : (
+                Upgrade now{" "}
+                <svg
+                  className="w-2 h-2 ms-1.5 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+              </a>
+            </div>) : (
             <div className="p-3 space-y-2">
               <h3 className="font-semibold text-gray-900 dark:text-white">
                 {"Please login to see your token"}
