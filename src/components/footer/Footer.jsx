@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "flowbite";
 import "./Footer.css";
 import useAuth from "../../hook/useAuth";
@@ -7,10 +7,13 @@ import { useNavigate } from "react-router-dom";
 import useStorage from "../../hook/useStorage";
 
 export default function Footer() {
+
+  const [activeTab, setActiveTab] = useState("home");
   const { isAuthenticated } = useContext(AuthContext);
   const { limit, loading, logout } = useAuth();
   const {getDashboardFromStorage, dashboard} = useStorage();
   const Navigate = useNavigate();
+
 
   useEffect(() => {
     const { initFlowbite } = require("flowbite");
@@ -25,7 +28,7 @@ export default function Footer() {
   }
 
   return (
-    <div id="footer" className="">
+    <div id="footer" className="bg-gray-50">
       <div className="footer-item">
         {!isAuthenticated ? (
           <button
@@ -35,10 +38,7 @@ export default function Footer() {
             className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
           >
             <a href="#/login">
-              <img
-                src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/profile.png"
-                alt=""
-              />
+            <img className="w-5" src={activeTab == "home"?"images/user-solid.svg":"images/user-regular.svg"} alt="test" />
             </a>
           </button>
         ) : (
@@ -49,10 +49,7 @@ export default function Footer() {
             className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
             onClick={handleClick}
           >
-            <img
-              src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/profile.png"
-              alt=""
-            />
+          <img className="w-5" src={activeTab == "home"?"images/user-solid.svg":"images/user-regular.svg"} alt="test" />
           </button>
         )}
 

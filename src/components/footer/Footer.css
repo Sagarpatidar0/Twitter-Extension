@@ -6,6 +6,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #23282e;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#footer44 img{
+  width: 20px;
+  height: 20px;
 }
