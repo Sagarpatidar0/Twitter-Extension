@@ -70,7 +70,7 @@ We welcome contributions to improve SmartTweet! If you would like to contribute,
 5. Open a pull request.
 
 ## Support
-For any issues or questions, please contact our support team at support@smarttweet.com.
+For any issues or questions, please contact us.
 
 ## License
 SmartTweet is licensed under the MIT License. See the LICENSE file for more details.
