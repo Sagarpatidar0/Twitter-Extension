@@ -1,4 +1,9 @@
 # SmartTweet
+## Install - 
+## Frontend - https://github.com/Sagarpatidar0/Twitter-Extension
+## Backend - https://github.com/uditrajput03/twitterAI-backend
+### Documentation - https://uditrajput03.github.io/twitterAI-backend/doc.html
+### https://uditrajput03.github.io/twitterAI-backend/
 
 ## Overview
 SmartTweet is a powerful Chrome extension that leverages AI to reply to tweets intelligently. Users can select from different AI profiles to tailor the tone and content of their responses. Whether you want to reply professionally, humorously, or informatively, SmartTweet has got you covered.
