@@ -8,6 +8,7 @@ const UpdateProfileForm = () => {
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
   const [error, setError] = useState({});
+  const [isUpdating, setIsUpdating] = useState(false);
   const { id, buname, budescription, token } = useParams();
   const { fetchProfileDataAndStore, loading } = useStorage();
 
@@ -37,7 +38,7 @@ const UpdateProfileForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsUpdating(true);
     if (!validate()) {
       return;
     }
@@ -67,24 +68,21 @@ const UpdateProfileForm = () => {
         console.log("Profile updated successfully");
         fetchProfileDataAndStore(token);
       }
-
-      setName("");
-      setDescription("");
     } catch (err) {
       setError(err.message);
       console.log("Profile not updated");
     }
   };
 
-  if(!loading) {
+  if (!loading) {
+    setIsUpdating(false);
     Navigate("/profile");
   }
 
-
   return (
-    <div className="flex flex-col items-center justify-center h-full  bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xs">
-        <h1 className="text-2xl font-bold text-center mb-4 text-orange-600">
+    <div className="flex flex-col items-center justify-center h-full bg-gray-100 p-4">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-2xl font-bold text-center mb-4 text-blue-500">
           Update Profile
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -97,7 +95,7 @@ const UpdateProfileForm = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
               required
@@ -117,7 +115,7 @@ const UpdateProfileForm = () => {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className={`mt-1 px-3 py-2 max-h-32 min-h-16 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              className={`mt-1 px-3 py-2 h-32 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.description ? "border-red-500" : "border-gray-300"
               }`}
               required
@@ -128,9 +126,13 @@ const UpdateProfileForm = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
+            className={`relative w-full py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 ${
+              isUpdating ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={isUpdating}
           >
-            Update Profile
+            
+            {!isUpdating ? "Update Profile" : "Updating..."}
           </button>
         </form>
       </div>
