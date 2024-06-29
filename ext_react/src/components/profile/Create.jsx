@@ -130,9 +130,9 @@ const CreateProfileForm = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-full  bg-gray-100 p-4">
-      <div className="bg-white p-4 rounded-lg shadow-lg w-full">
-        <h1 className="text-2xl font-bold text-center mb-4 text-orange-600">
+    <div className="flex flex-col items-center justify-center h-full bg-gray-50 p-4">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-bold text-center mb-4 text-blue-500">
           Create Profile
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -145,7 +145,7 @@ const CreateProfileForm = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
               required
@@ -165,7 +165,7 @@ const CreateProfileForm = () => {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.description ? "border-red-500" : "border-gray-300"
               }`}
               required
@@ -176,7 +176,9 @@ const CreateProfileForm = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 flex items-center justify-center"
+            className={`w-full py-2 rounded-md text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 flex items-center justify-center ${
+              loading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+            }`}
             disabled={loading}
           >
             {loading ? (
@@ -209,6 +211,8 @@ const CreateProfileForm = () => {
       </div>
     </div>
   );
+  
+  
 };
 
 export default CreateProfileForm;
