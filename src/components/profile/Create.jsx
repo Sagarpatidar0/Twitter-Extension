@@ -161,11 +161,11 @@ const CreateProfileForm = () => {
             >
               Description
             </label>
-            <textarea
+            <textarea row="15"
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className={`mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
+              className={`mt-1 h-28 text-sm px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.description ? "border-red-500" : "border-gray-300"
               }`}
               required

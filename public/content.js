@@ -214,8 +214,8 @@
         popup.style.position = "absolute";
         if (btn) {
           const rect = btn.getBoundingClientRect();
-          popup.style.left = rect.left + "px";
-          popup.style.top = window.scrollY + rect.top + "px";
+          popup.style.left = rect.left + 100 + "px";
+          popup.style.top = window.scrollY + rect.top - 100 + "px";
         }
         popup.innerHTML = `
       <div      data-popover      id="popover-left"      role="tooltip"      class="absolute z-10 inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 opacity-100 visible"    >
