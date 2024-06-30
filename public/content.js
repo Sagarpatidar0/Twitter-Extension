@@ -224,7 +224,7 @@
       </div>
       <div        class="px-3 py-2 my-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"      >
         <h3 class="font-semibold text-gray-900 dark:text-white">
-          Twitter AI
+          SmartTweet AI
         </h3>
       </div>
       <div class="px-3 py-2">
@@ -235,7 +235,7 @@
         </select>
          <div class="flex justify-end space-x-4 mt-4 mb-2 pr-1">
             <button id="regenerate-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Regenerate
+                Generate
             </button>
             <button id="copy-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Copy
