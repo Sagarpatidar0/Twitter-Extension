@@ -7910,7 +7910,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Footer_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Footer.css */ "./src/components/footer/Footer.css");
 /* harmony import */ var _hook_useAuth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hook/useAuth */ "./src/hook/useAuth.jsx");
 /* harmony import */ var _contexts_AuthContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../contexts/AuthContext */ "./src/contexts/AuthContext.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var _hook_useStorage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../hook/useStorage */ "./src/hook/useStorage.jsx");
+
 
 
 
@@ -7924,11 +7926,15 @@ function Footer() {
     limit = _useAuth.limit,
     loading = _useAuth.loading,
     logout = _useAuth.logout;
-  var Navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
+  var _useStorage = (0,_hook_useStorage__WEBPACK_IMPORTED_MODULE_5__["default"])(),
+    getDashboardFromStorage = _useStorage.getDashboardFromStorage,
+    dashboard = _useStorage.dashboard;
+  var Navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var _require = __webpack_require__(/*! flowbite */ "./node_modules/flowbite/lib/esm/index.js"),
       initFlowbite = _require.initFlowbite;
     initFlowbite();
+    getDashboardFromStorage();
   }, []);
   var handleClick = function handleClick() {
     Navigate("/");
@@ -8040,12 +8046,12 @@ function Footer() {
     className: "p-3 space-y-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
     className: "font-semibold text-gray-900 dark:text-white"
-  }, "Today Token left: " + (limit === null || limit === void 0 ? void 0 : limit.remaining_quota)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, "Today Token left: " + (dashboard === null || dashboard === void 0 ? void 0 : dashboard.remaining_quota)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "bg-red-600 h-2.5 rounded-full",
     style: {
-      width: "".concat((limit === null || limit === void 0 ? void 0 : limit.remaining_quota) * 10, "%")
+      width: "".concat((dashboard === null || dashboard === void 0 ? void 0 : dashboard.remaining_quota) * 10, "%")
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     href: "#",

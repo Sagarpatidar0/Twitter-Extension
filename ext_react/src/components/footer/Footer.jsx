@@ -4,18 +4,19 @@ import "./Footer.css";
 import useAuth from "../../hook/useAuth";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import useStorage from "../../hook/useStorage";
 
 export default function Footer() {
   const { isAuthenticated } = useContext(AuthContext);
   const { limit, loading, logout } = useAuth();
+  const {getDashboardFromStorage, dashboard} = useStorage();
   const Navigate = useNavigate();
 
   useEffect(() => {
-
-
     const { initFlowbite } = require("flowbite");
     initFlowbite();
 
+    getDashboardFromStorage();
 
   }, []);
 
@@ -149,12 +150,12 @@ export default function Footer() {
           {isAuthenticated && !loading ? (
           <div className="p-3 space-y-2">
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              {"Today Token left: " + limit?.remaining_quota}
+              {"Today Token left: " + dashboard?.remaining_quota}
             </h3>
             <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
               <div
                 className="bg-red-600 h-2.5 rounded-full"
-                style={{ width: `${(limit?.remaining_quota) * 10}%`}}
+                style={{ width: `${(dashboard?.remaining_quota) * 10}%`}}
               ></div>
             </div>
             <a
