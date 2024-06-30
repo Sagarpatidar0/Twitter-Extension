@@ -31,7 +31,7 @@ const useStorage = () => {
   }, []);
 
   const fetchDataAndStore = async (token) => {
-      console.log("Fetching data and storing in useStorage hook");
+    console.log("Fetching data and storing in useStorage hook");
     if (!token) return;
 
     setLoading(true);
@@ -73,6 +73,40 @@ const useStorage = () => {
       setError(err.message);
     } finally {
       console.log("Data fetched and stored");
+      setLoading(false);
+    }
+  };
+
+  const fetchProfileDataAndStore = async (token) => {
+    console.log("Fetching profile data and storing in useStorage hook");
+    if (!token) return;
+
+    setLoading(true);
+    try {
+      const [profilesResponse] = await Promise.all([
+        fetch("https://api.twitterai.workers.dev/auth/profile", {
+          method: "GET",
+          headers: {
+            Authorization: token,
+          },
+        }),
+      ]);
+
+      if (!profilesResponse.ok) {
+        throw new Error("Failed to fetch profiles");
+      }
+
+      const profilesData = await profilesResponse.json();
+
+      setProfiles(profilesData);
+
+      await chrome.storage.local.set({
+        profiles: profilesData,
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      console.log("Profile Data fetched and stored");
       setLoading(false);
     }
   };
@@ -121,6 +155,7 @@ const useStorage = () => {
     profiles,
     dashboard,
     fetchDataAndStore,
+    fetchProfileDataAndStore,
     getDashboardFromStorage,
     getProfilesFromStorage,
   };

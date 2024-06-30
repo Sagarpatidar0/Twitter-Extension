@@ -6,7 +6,7 @@ import useStorage from "../../hook/useStorage";
 import useAuth  from "../../hook/useAuth";
 
 const Profiles = () => {
-  const { getProfilesFromStorage, profiles: profData, loading, token } = useStorage();
+  const { getProfilesFromStorage, fetchProfileDataAndStore ,profiles: profData, loading, token } = useStorage();
   const [profiles, setProfiles] = useState(null);
   const [error, setError] = useState(null);
   const { isAuthenticated } = useAuth();
@@ -54,6 +54,8 @@ const Profiles = () => {
       }
 
       setProfiles(profiles.filter((profile) => profile.id !== id));
+      fetchProfileDataAndStore(token)
+
     } catch (err) {
       setError(err.message);
     }
@@ -77,7 +79,7 @@ const Profiles = () => {
       {!profiles? (
         <p className="text-gray-700">No profile found</p>
       ) : (
-        <ul className="w-full max-w-md mb-2 h-full overflow-y-scroll bg-white rounded-lg shadow-md">
+        <ul className="w-full max-w-md mb-4 h-full overflow-y-scroll bg-white rounded-lg shadow-md">
           {profiles.map((profile) => (
             <li
               key={profile.id}

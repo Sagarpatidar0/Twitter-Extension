@@ -144,27 +144,27 @@ var CreateProfileForm = function CreateProfileForm() {
           case 10:
             fetchDataAndStore(token).then(function () {
               Navigate("/profile");
+              setName("");
+              setDescription("");
             });
-            setName("");
-            setDescription("");
             setError(null);
             return _context2.abrupt("return", true);
-          case 17:
-            _context2.prev = 17;
+          case 15:
+            _context2.prev = 15;
             _context2.t0 = _context2["catch"](4);
             setError(_context2.t0.message);
             return _context2.abrupt("return", false);
-          case 21:
-            _context2.prev = 21;
+          case 19:
+            _context2.prev = 19;
             if (!fetchLoading) {
               setLoading(false);
             }
-            return _context2.finish(21);
-          case 24:
+            return _context2.finish(19);
+          case 22:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[4, 17, 21, 24]]);
+      }, _callee2, null, [[4, 15, 19, 22]]);
     }));
     return function createProfile() {
       return _ref2.apply(this, arguments);

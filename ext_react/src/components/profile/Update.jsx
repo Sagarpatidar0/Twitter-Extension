@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useStorage from "../../hook/useStorage";
+import Spinner from "../Spinner";
 
 const UpdateProfileForm = () => {
   const [name, setName] = useState("");
@@ -8,7 +9,7 @@ const UpdateProfileForm = () => {
   const [errors, setErrors] = useState({});
   const [error, setError] = useState({});
   const { id, buname, budescription, token } = useParams();
-  const { fetchDataAndStore } = useStorage();
+  const { fetchProfileDataAndStore, loading } = useStorage();
 
   const Navigate = useNavigate();
 
@@ -64,10 +65,9 @@ const UpdateProfileForm = () => {
       }
       if (response.ok) {
         console.log("Profile updated successfully");
-        fetchDataAndStore(token).then(() => {
-          Navigate("/profile");
-        });
+        fetchProfileDataAndStore(token);
       }
+
       setName("");
       setDescription("");
     } catch (err) {
@@ -76,8 +76,13 @@ const UpdateProfileForm = () => {
     }
   };
 
+  if(!loading) {
+    Navigate("/profile");
+  }
+
+
   return (
-    <div className="flex flex-col items-center justify-center max-h-screen  bg-gray-100 p-4">
+    <div className="flex flex-col items-center justify-center h-full  bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xs">
         <h1 className="text-2xl font-bold text-center mb-4 text-orange-600">
           Update Profile

@@ -69,9 +69,10 @@ const CreateProfileForm = () => {
 
       fetchDataAndStore(token).then(() => {
         Navigate("/profile");
+        setName("");
+        setDescription("");
       });
-      setName("");
-      setDescription("");
+
       setError(null);
       return true;
     } catch (err) {

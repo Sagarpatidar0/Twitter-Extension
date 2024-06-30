@@ -8143,6 +8143,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var Profiles = function Profiles() {
   var _useStorage = (0,_hook_useStorage__WEBPACK_IMPORTED_MODULE_3__["default"])(),
     getProfilesFromStorage = _useStorage.getProfilesFromStorage,
+    fetchProfileDataAndStore = _useStorage.fetchProfileDataAndStore,
     profData = _useStorage.profiles,
     loading = _useStorage.loading,
     token = _useStorage.token;
@@ -8207,17 +8208,18 @@ var Profiles = function Profiles() {
             setProfiles(profiles.filter(function (profile) {
               return profile.id !== id;
             }));
-            _context.next = 15;
+            fetchProfileDataAndStore(token);
+            _context.next = 16;
             break;
-          case 12:
-            _context.prev = 12;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](3);
             setError(_context.t0.message);
-          case 15:
+          case 16:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[3, 12]]);
+      }, _callee, null, [[3, 13]]);
     }));
     return function handleDelete(_x) {
       return _ref.apply(this, arguments);
@@ -8240,7 +8242,7 @@ var Profiles = function Profiles() {
   }, "Add Profile")), !profiles ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "text-gray-700"
   }, "No profile found") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", {
-    className: "w-full max-w-md mb-2 h-full overflow-y-scroll bg-white rounded-lg shadow-md"
+    className: "w-full max-w-md mb-4 h-full overflow-y-scroll bg-white rounded-lg shadow-md"
   }, profiles.map(function (profile) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
       key: profile.id,
@@ -8618,48 +8620,72 @@ var useStorage = function useStorage() {
       return _ref2.apply(this, arguments);
     };
   }();
-
-  // Retrieve data from Chrome storage
-  var getDashboardFromStorage = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-      var result;
+  var fetchProfileDataAndStore = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(token) {
+      var _yield$Promise$all3, _yield$Promise$all4, profilesResponse, profilesData;
       return _regeneratorRuntime().wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            setLoading(true);
-            _context3.prev = 1;
-            _context3.next = 4;
-            return chrome.storage.local.get(["dashboard"]);
-          case 4:
-            result = _context3.sent;
-            if (result.dashboard) {
-              setDashboard(result.dashboard);
-            } else {
-              console.error("Dashboard not found in storage");
-              setError("Dashboard not found in storage");
+            console.log("Fetching profile data and storing in useStorage hook");
+            if (token) {
+              _context3.next = 3;
+              break;
             }
-            _context3.next = 12;
-            break;
-          case 8:
-            _context3.prev = 8;
-            _context3.t0 = _context3["catch"](1);
-            console.error("Error retrieving dashboard from storage:", _context3.t0);
-            setError("Error retrieving dashboard from storage");
+            return _context3.abrupt("return");
+          case 3:
+            setLoading(true);
+            _context3.prev = 4;
+            _context3.next = 7;
+            return Promise.all([fetch("https://api.twitterai.workers.dev/auth/profile", {
+              method: "GET",
+              headers: {
+                Authorization: token
+              }
+            })]);
+          case 7:
+            _yield$Promise$all3 = _context3.sent;
+            _yield$Promise$all4 = _slicedToArray(_yield$Promise$all3, 1);
+            profilesResponse = _yield$Promise$all4[0];
+            if (profilesResponse.ok) {
+              _context3.next = 12;
+              break;
+            }
+            throw new Error("Failed to fetch profiles");
           case 12:
-            _context3.prev = 12;
+            _context3.next = 14;
+            return profilesResponse.json();
+          case 14:
+            profilesData = _context3.sent;
+            setProfiles(profilesData);
+            _context3.next = 18;
+            return chrome.storage.local.set({
+              profiles: profilesData
+            });
+          case 18:
+            _context3.next = 23;
+            break;
+          case 20:
+            _context3.prev = 20;
+            _context3.t0 = _context3["catch"](4);
+            setError(_context3.t0.message);
+          case 23:
+            _context3.prev = 23;
+            console.log("Profile Data fetched and stored");
             setLoading(false);
-            return _context3.finish(12);
-          case 15:
+            return _context3.finish(23);
+          case 27:
           case "end":
             return _context3.stop();
         }
-      }, _callee3, null, [[1, 8, 12, 15]]);
+      }, _callee3, null, [[4, 20, 23, 27]]);
     }));
-    return function getDashboardFromStorage() {
+    return function fetchProfileDataAndStore(_x2) {
       return _ref3.apply(this, arguments);
     };
   }();
-  var getProfilesFromStorage = /*#__PURE__*/function () {
+
+  // Retrieve data from Chrome storage
+  var getDashboardFromStorage = /*#__PURE__*/function () {
     var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
       var result;
       return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -8668,22 +8694,22 @@ var useStorage = function useStorage() {
             setLoading(true);
             _context4.prev = 1;
             _context4.next = 4;
-            return chrome.storage.local.get(["profiles"]);
+            return chrome.storage.local.get(["dashboard"]);
           case 4:
             result = _context4.sent;
-            if (result.profiles) {
-              setProfiles(result.profiles);
+            if (result.dashboard) {
+              setDashboard(result.dashboard);
             } else {
-              console.error("Profiles not found in storage");
-              setError("Profiles not found in storage");
+              console.error("Dashboard not found in storage");
+              setError("Dashboard not found in storage");
             }
             _context4.next = 12;
             break;
           case 8:
             _context4.prev = 8;
             _context4.t0 = _context4["catch"](1);
-            console.error("Error retrieving profiles from storage:", _context4.t0);
-            setError("Error retrieving profiles from storage");
+            console.error("Error retrieving dashboard from storage:", _context4.t0);
+            setError("Error retrieving dashboard from storage");
           case 12:
             _context4.prev = 12;
             setLoading(false);
@@ -8694,8 +8720,47 @@ var useStorage = function useStorage() {
         }
       }, _callee4, null, [[1, 8, 12, 15]]);
     }));
-    return function getProfilesFromStorage() {
+    return function getDashboardFromStorage() {
       return _ref4.apply(this, arguments);
+    };
+  }();
+  var getProfilesFromStorage = /*#__PURE__*/function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+      var result;
+      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+        while (1) switch (_context5.prev = _context5.next) {
+          case 0:
+            setLoading(true);
+            _context5.prev = 1;
+            _context5.next = 4;
+            return chrome.storage.local.get(["profiles"]);
+          case 4:
+            result = _context5.sent;
+            if (result.profiles) {
+              setProfiles(result.profiles);
+            } else {
+              console.error("Profiles not found in storage");
+              setError("Profiles not found in storage");
+            }
+            _context5.next = 12;
+            break;
+          case 8:
+            _context5.prev = 8;
+            _context5.t0 = _context5["catch"](1);
+            console.error("Error retrieving profiles from storage:", _context5.t0);
+            setError("Error retrieving profiles from storage");
+          case 12:
+            _context5.prev = 12;
+            setLoading(false);
+            return _context5.finish(12);
+          case 15:
+          case "end":
+            return _context5.stop();
+        }
+      }, _callee5, null, [[1, 8, 12, 15]]);
+    }));
+    return function getProfilesFromStorage() {
+      return _ref5.apply(this, arguments);
     };
   }();
   return {
@@ -8705,6 +8770,7 @@ var useStorage = function useStorage() {
     profiles: profiles,
     dashboard: dashboard,
     fetchDataAndStore: fetchDataAndStore,
+    fetchProfileDataAndStore: fetchProfileDataAndStore,
     getDashboardFromStorage: getDashboardFromStorage,
     getProfilesFromStorage: getProfilesFromStorage
   };
