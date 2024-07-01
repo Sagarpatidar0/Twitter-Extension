@@ -14,8 +14,10 @@ const useAuth = () => {
   } = useContext(AuthContext);
   const Navigate = useNavigate();
   
+  
   useEffect(() => {
     const fetchAuthData = async (token) => {
+      
       if (!token) {
         setLoading(false);
         return;
@@ -40,7 +42,7 @@ const useAuth = () => {
       } catch (err) {
         console.log(err);
         setError(err.message);
-        setIsAuthenticated(false);
+        contextLogout();
       } finally {
         setLoading(false);
       }
@@ -50,9 +52,11 @@ const useAuth = () => {
     chrome.storage.local.get(["token"], (result) => {
       if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError);
+        contextLogout();
       } else {
         const token = result.token;
         if (token) {
+          login();
           fetchAuthData(token);
         }
       }

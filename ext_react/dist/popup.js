@@ -8407,7 +8407,7 @@ var useAuth = function useAuth() {
               _context.t0 = _context["catch"](4);
               console.log(_context.t0);
               setError(_context.t0.message);
-              setIsAuthenticated(false);
+              contextLogout();
             case 22:
               _context.prev = 22;
               setLoading(false);
@@ -8425,9 +8425,11 @@ var useAuth = function useAuth() {
     chrome.storage.local.get(["token"], function (result) {
       if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError);
+        contextLogout();
       } else {
         var token = result.token;
         if (token) {
+          login();
           fetchAuthData(token);
         }
       }
