@@ -8423,13 +8423,11 @@ var useAuth = function useAuth() {
       };
     }();
     chrome.storage.local.get(["token"], function (result) {
-      console.log("Result ", result);
       if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError);
       } else {
         var token = result.token;
         if (token) {
-          console.log("Token found", token);
           fetchAuthData(token);
         }
       }

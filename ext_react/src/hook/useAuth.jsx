@@ -13,7 +13,7 @@ const useAuth = () => {
     logout: contextLogout,
   } = useContext(AuthContext);
   const Navigate = useNavigate();
-
+  
   useEffect(() => {
     const fetchAuthData = async (token) => {
       if (!token) {
@@ -48,13 +48,11 @@ const useAuth = () => {
 
 
     chrome.storage.local.get(["token"], (result) => {
-      console.log("Result ", result);
       if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError);
       } else {
         const token = result.token;
         if (token) {
-          console.log("Token found", token);
           fetchAuthData(token);
         }
       }
