@@ -135,23 +135,20 @@ var LoginForm = function LoginForm() {
               console.log(data.status);
               console.log(data);
             }
-            setEmail("");
-            setPassword("");
-            _context.next = 23;
+            _context.next = 21;
             break;
-          case 20:
-            _context.prev = 20;
+          case 18:
+            _context.prev = 18;
             _context.t0 = _context["catch"](4);
             console.error(_context.t0);
+          case 21:
+            _context.prev = 21;
+            return _context.finish(21);
           case 23:
-            _context.prev = 23;
-            setLoading(false);
-            return _context.finish(23);
-          case 26:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[4, 20, 23, 26]]);
+      }, _callee, null, [[4, 18, 21, 23]]);
     }));
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);

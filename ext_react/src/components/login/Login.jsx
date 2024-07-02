@@ -75,12 +75,10 @@ const LoginForm = () => {
         console.log(data);
       }
 
-      setEmail("");
-      setPassword("");
+      
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
     }
   };
 

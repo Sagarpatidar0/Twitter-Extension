@@ -15,7 +15,7 @@
   });
   chrome.storage.local.get("profiles", (data) => {
     if (data.profiles) {
-      profile = data.userProfile;
+      profile = data.profiles;
       console.log("Fetching profiles chrome storage: ", profile);
     }
   });
