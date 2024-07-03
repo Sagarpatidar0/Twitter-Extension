@@ -15,7 +15,12 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: "babel-loader",
+        use: {
+          loader:"babel-loader",
+          options: {
+            cacheDirectory: true, // Enable caching for babel-loader
+          },
+        }
       },
       {
         test: /\.css$/,
@@ -61,5 +66,11 @@ module.exports = {
       ],
     }),
   ],
-  mode: "development",
+  mode: 'development',
+  cache: {
+    type: 'filesystem', // Enable filesystem caching
+  },
+  watch: true,
+  devtool: 'source-map',
+  
 };

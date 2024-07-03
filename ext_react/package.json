@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack serve --mode development --open",
+    "build": "webpack  --mode production",
+    "start": "webpack serve --open",
+    "watch": "webpack --watch --progress --config webpack.config.js",
     "dev": "npm run start"
   },
   "keywords": [],
@@ -12,9 +13,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.7.2",
     "flowbite": "^2.3.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",

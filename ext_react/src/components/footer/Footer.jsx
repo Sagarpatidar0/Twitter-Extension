@@ -1,8 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import "flowbite";
 import "./Footer.css";
+import useAuth from "../../hook/useAuth";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Footer() {
+  const { isAuthenticated } = useContext(AuthContext);
+  const { logout } = useAuth();
+
   useEffect(() => {
     // Initialize any Flowbite components here if necessary
     const { initFlowbite } = require("flowbite");
@@ -12,17 +17,35 @@ export default function Footer() {
   return (
     <div id="footer" className="">
       <div className="footer-item">
-        <button
-          data-popover-target="popover-top-1"
-          data-popover-placement="top"
-          type="button"
-          className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
-        >
-          <img
-            src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/profile.png"
-            alt=""
-          />
-        </button>
+        {!isAuthenticated ? (
+          <button
+            data-popover-target="popover-top-1"
+            data-popover-placement="top"
+            type="button"
+            className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
+          >
+            <a href="#/login">
+              <img
+                src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/profile.png"
+                alt=""
+              />
+            </a>
+          </button>
+        ) : (
+          <button
+            data-popover-target="popover-top-1"
+            data-popover-placement="top"
+            type="button"
+            className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
+            onClick={logout}
+          >
+            <img
+              src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/profile.png"
+              alt=""
+            />
+          </button>
+        )}
+
         <div
           data-popover
           id="popover-top-1"
@@ -31,7 +54,7 @@ export default function Footer() {
         >
           <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-lg dark:border-gray-600 dark:bg-gray-700">
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              login
+              {isAuthenticated ? "Logout" : "Login"}
             </h3>
           </div>
           <div data-popper-arrow></div>
@@ -44,10 +67,11 @@ export default function Footer() {
           type="button"
           className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
         >
+          <a href="#/profile">
           <img
             src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/doc_1.png"
             alt=""
-          />
+          /></a>
         </button>
         <div
           data-popover
@@ -57,7 +81,7 @@ export default function Footer() {
         >
           <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-lg dark:border-gray-600 dark:bg-gray-700">
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              login
+              Profile
             </h3>
           </div>
           <div data-popper-arrow></div>
@@ -70,10 +94,11 @@ export default function Footer() {
           type="button"
           className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
         >
+          <a href="#/profile/create">
           <img
             src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/exclude_1.png"
             alt=""
-          />
+          /></a>
         </button>
         <div
           data-popover
@@ -83,7 +108,7 @@ export default function Footer() {
         >
           <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-lg dark:border-gray-600 dark:bg-gray-700">
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              login
+              New Profile
             </h3>
           </div>
           <div data-popper-arrow></div>

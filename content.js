@@ -51,9 +51,6 @@
       const aiBtn = document.getElementsByClassName("ai-btn")[0];
       let popup = document.createElement("div");
 
-      const removePopup = () => {
-        console.log("clicked");
-      };
       const btn = document.getElementById("x-ai-replay");
       popup.className = "popup";
       popup.style.position = "absolute";
