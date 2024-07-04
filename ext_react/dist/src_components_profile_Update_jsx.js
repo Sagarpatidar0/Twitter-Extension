@@ -47,6 +47,10 @@ var UpdateProfileForm = function UpdateProfileForm() {
     _useState8 = _slicedToArray(_useState7, 2),
     error = _useState8[0],
     setError = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState10 = _slicedToArray(_useState9, 2),
+    isUpdating = _useState10[0],
+    setIsUpdating = _useState10[1];
   var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useParams)(),
     id = _useParams.id,
     buname = _useParams.buname,
@@ -83,25 +87,26 @@ var UpdateProfileForm = function UpdateProfileForm() {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             e.preventDefault();
+            setIsUpdating(true);
             if (validate()) {
-              _context.next = 3;
+              _context.next = 4;
               break;
             }
             return _context.abrupt("return");
-          case 3:
+          case 4:
             if (token) {
-              _context.next = 6;
+              _context.next = 7;
               break;
             }
             setError("No token found");
             return _context.abrupt("return");
-          case 6:
-            _context.prev = 6;
+          case 7:
+            _context.prev = 7;
             console.log("Updating profile", {
               id: Number(id),
               name: name
             });
-            _context.next = 10;
+            _context.next = 11;
             return fetch("https://api.twitterai.workers.dev/auth/profile", {
               method: "PUT",
               headers: {
@@ -113,47 +118,46 @@ var UpdateProfileForm = function UpdateProfileForm() {
                 description: description
               })
             });
-          case 10:
+          case 11:
             response = _context.sent;
             console.log(response);
             if (response.ok) {
-              _context.next = 14;
+              _context.next = 15;
               break;
             }
             throw new Error("Failed to delete profile");
-          case 14:
+          case 15:
             if (response.ok) {
               console.log("Profile updated successfully");
               fetchProfileDataAndStore(token);
             }
-            setName("");
-            setDescription("");
-            _context.next = 23;
+            _context.next = 22;
             break;
-          case 19:
-            _context.prev = 19;
-            _context.t0 = _context["catch"](6);
+          case 18:
+            _context.prev = 18;
+            _context.t0 = _context["catch"](7);
             setError(_context.t0.message);
             console.log("Profile not updated");
-          case 23:
+          case 22:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[6, 19]]);
+      }, _callee, null, [[7, 18]]);
     }));
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);
     };
   }();
   if (!loading) {
+    setIsUpdating(false);
     Navigate("/profile");
   }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "flex flex-col items-center justify-center h-full  bg-gray-100 p-4"
+    className: "flex flex-col items-center justify-center h-full bg-gray-100 p-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "bg-white p-8 rounded-lg shadow-lg w-full max-w-xs"
+    className: "bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
-    className: "text-2xl font-bold text-center mb-4 text-orange-600"
+    className: "text-2xl font-bold text-center mb-4 text-blue-500"
   }, "Update Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
     className: "space-y-4",
     onSubmit: handleSubmit
@@ -169,7 +173,7 @@ var UpdateProfileForm = function UpdateProfileForm() {
     onChange: function onChange(e) {
       return setName(e.target.value);
     },
-    className: "mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ".concat(errors.name ? "border-red-500" : "border-gray-300"),
+    className: "mt-1 px-3 py-2 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ".concat(errors.name ? "border-red-500" : "border-gray-300"),
     required: true
   }), errors.name && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "text-red-500 text-xs mt-1"
@@ -184,14 +188,15 @@ var UpdateProfileForm = function UpdateProfileForm() {
     onChange: function onChange(e) {
       return setDescription(e.target.value);
     },
-    className: "mt-1 px-3 py-2 max-h-32 min-h-16 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ".concat(errors.description ? "border-red-500" : "border-gray-300"),
+    className: "mt-1 px-3 py-2 h-32 text-black border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ".concat(errors.description ? "border-red-500" : "border-gray-300"),
     required: true
   }), errors.description && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "text-red-500 text-xs mt-1"
   }, errors.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     type: "submit",
-    className: "w-full py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
-  }, "Update Profile"))));
+    className: "relative w-full py-2 rounded-md bg-blue-500 hover:bg-blue-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 ".concat(isUpdating ? "opacity-50 cursor-not-allowed" : ""),
+    disabled: isUpdating
+  }, !isUpdating ? "Update Profile" : "Updating..."))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UpdateProfileForm);
 
