@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateProfileForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
-  const [error, setError] = useState({});
+  const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const getToken = async () => {
@@ -19,12 +21,10 @@ const CreateProfileForm = () => {
         } else {
           console.error('Token not found');
           setError('Token not found');
-          setLoading(false);
         }
       } catch (error) {
         console.error('Error retrieving token:', error);
         setError('Error retrieving token');
-        setLoading(false);
       }
     };
 
@@ -43,55 +43,59 @@ const CreateProfileForm = () => {
     return Object.keys(validationErrors).length === 0;
   };
 
-    const createProfiles = async () => {
-      if (!token) return;
+  const createProfile = async () => {
+    if (!token) return;
 
-      console.log('Fetching profiles');
-      try {
-        const response = await fetch(
-          "https://api.twitterai.workers.dev/auth/profile",
-          {
-            method: "POST",
-            headers: {
-              Authorization: token,
-            },
-            body: JSON.stringify({ name, description }),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to Create profiles");
+    setLoading(true);
+    console.log('Creating profile');
+    try {
+      const response = await fetch(
+        "https://api.twitterai.workers.dev/auth/profile",
+        {
+          method: "POST",
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, description }),
         }
-        return true;
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to create profile");
       }
-    };
 
+      Navigate("/profile");
 
-  const handleSubmit = (e) => {
+      setName("");
+      setDescription("");
+      setError(null);
+      return true;
+    } catch (err) {
+      setError(err.message);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validate()) {
       return;
     }
-    let status = createProfiles();
-    if(status){
+
+    const status = await createProfile();
+    if (status) {
       console.log('Profile created successfully');
-      setName("");
-      setDescription("");
-    }else{
+    } else {
       console.log('Profile creation failed');
-      setError('Profile creation failed');
     }
-    
-    
   };
 
   return (
-    <div className="flex flex-col items-center justify-center max-h-screen  bg-gray-100 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xs">
         <h1 className="text-2xl font-bold text-center mb-4 text-orange-600">Create Profile</h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -132,10 +136,37 @@ const CreateProfileForm = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
+            className="w-full py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 flex items-center justify-center"
+            disabled={loading}
           >
-            Create Profile
+            {loading ? (
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
+              </svg>
+            ) : (
+              "Create Profile"
+            )}
           </button>
+          {error && (
+            <p className="text-red-500 text-xs mt-2">{error}</p>
+          )}
         </form>
       </div>
     </div>

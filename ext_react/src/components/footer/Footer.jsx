@@ -6,12 +6,15 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Footer() {
   const { isAuthenticated } = useContext(AuthContext);
-  const { logout } = useAuth();
+  const { limit, loading, logout } = useAuth();
 
   useEffect(() => {
-    // Initialize any Flowbite components here if necessary
+
+
     const { initFlowbite } = require("flowbite");
     initFlowbite();
+
+
   }, []);
 
   return (
@@ -137,14 +140,15 @@ export default function Footer() {
           role="tooltip"
           className="absolute z-10 invisible inline-block w-auto text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
         >
+          {isAuthenticated && !loading ? (
           <div className="p-3 space-y-2">
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              Today Token left
+              {"Today Token left: " + limit?.remaining_quota}
             </h3>
             <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
               <div
                 className="bg-red-600 h-2.5 rounded-full"
-                style={{ width: "85%" }}
+                style={{ width: `${(limit?.remaining_quota) * 10}%`}}
               ></div>
             </div>
             <a
@@ -168,7 +172,14 @@ export default function Footer() {
                 />
               </svg>
             </a>
-          </div>
+          </div>) : (
+            <div className="p-3 space-y-2">
+              <h3 className="font-semibold text-gray-900 dark:text-white">
+                {"Please login to see your token"}
+                <a href="#/login"> Click hear to login</a>
+              </h3>
+            </div>
+          )}
         </div>
         <div data-popper-arrow></div>
       </div>

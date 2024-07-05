@@ -43,6 +43,10 @@ var LoginForm = function LoginForm() {
     _useState6 = _slicedToArray(_useState5, 2),
     errors = _useState6[0],
     setErrors = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    loading = _useState8[0],
+    setLoading = _useState8[1];
   var _useChromeStorage = (0,_hook_useToken__WEBPACK_IMPORTED_MODULE_1__.useChromeStorage)("token"),
     _useChromeStorage2 = _slicedToArray(_useChromeStorage, 2),
     storedValue = _useChromeStorage2[0],
@@ -60,7 +64,7 @@ var LoginForm = function LoginForm() {
       validationErrors.email = "Please enter a valid email address ";
     }
     if (!password.trim() || password.length < 4) {
-      validationErrors.password = "password must be at least 6 char long";
+      validationErrors.password = "Password must be at least 6 characters long";
     }
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
@@ -135,8 +139,9 @@ var LoginForm = function LoginForm() {
             }
             return _context2.abrupt("return");
           case 3:
-            _context2.prev = 3;
-            _context2.next = 6;
+            setLoading(true);
+            _context2.prev = 4;
+            _context2.next = 7;
             return fetch("https://api.twitterai.workers.dev/login", {
               method: "POST",
               headers: {
@@ -147,43 +152,65 @@ var LoginForm = function LoginForm() {
                 password: password
               })
             });
-          case 6:
+          case 7:
             response = _context2.sent;
-            if (response.ok) {
-              _context2.next = 9;
+            _context2.next = 10;
+            return response.json();
+          case 10:
+            data = _context2.sent;
+            if (!(!response.ok || data.status === "User not exists")) {
+              _context2.next = 14;
               break;
             }
-            throw new Error("Login failed");
-          case 9:
-            _context2.next = 11;
-            return response.json();
-          case 11:
-            data = _context2.sent;
-            token = data.token;
-            if (data.status =  true && data.token) {
-              setStoredValue(token);
-              console.log("Logged In");
-              fetchProfileData(token);
-              navigate("/");
+            if (data.status === "Invalid password") {
+              setErrors({
+                password: "Invalid password"
+              });
+            } else if (data.status === "User not exists") {
+              setErrors({
+                email: "User does not exist"
+              });
             } else {
-              console.log(data.status);
-              console.log(data);
+              setErrors({
+                general: "Login failed. Please check your credentials."
+              });
             }
+            throw new Error("Login failed");
+          case 14:
+            token = data.token;
+            if (!(data.status === "Logged In" && data.token)) {
+              _context2.next = 23;
+              break;
+            }
+            setStoredValue(token);
+            console.log("Logged In");
+            _context2.next = 20;
+            return fetchProfileData(token);
+          case 20:
+            navigate("/");
+            _context2.next = 25;
+            break;
+          case 23:
+            console.log(data.status);
+            console.log(data);
+          case 25:
             setEmail("");
             setPassword("");
-            _context2.next = 21;
+            _context2.next = 32;
             break;
-          case 18:
-            _context2.prev = 18;
-            _context2.t0 = _context2["catch"](3);
-            setErrors({
-              general: "Login failed. Please check your credentials."
-            });
-          case 21:
+          case 29:
+            _context2.prev = 29;
+            _context2.t0 = _context2["catch"](4);
+            console.error(_context2.t0);
+          case 32:
+            _context2.prev = 32;
+            setLoading(false);
+            return _context2.finish(32);
+          case 35:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[3, 18]]);
+      }, _callee2, null, [[4, 29, 32, 35]]);
     }));
     return function handleSubmit(_x2) {
       return _ref2.apply(this, arguments);
@@ -203,7 +230,9 @@ var LoginForm = function LoginForm() {
   }, "Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
     className: "space-y-4",
     onSubmit: handleSubmit
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, errors.general && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "text-red-500 text-xs text-center"
+  }, errors.general), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex flex-col"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
     htmlFor: "email",
@@ -237,8 +266,27 @@ var LoginForm = function LoginForm() {
     className: "text-red-500 text-xs mt-1"
   }, errors.password)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     type: "submit",
-    className: "w-full py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
-  }, "Login")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "w-full py-2 rounded-md text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 ".concat(loading ? "bg-orange-300 cursor-not-allowed" : "bg-orange-500 hover:bg-orange-600"),
+    disabled: loading
+  }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "flex justify-center items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", {
+    className: "w-5 h-5 mr-3 text-white animate-spin",
+    xmlns: "http://www.w3.org/2000/svg",
+    fill: "none",
+    viewBox: "0 0 24 24"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("circle", {
+    className: "opacity-25",
+    cx: "12",
+    cy: "12",
+    r: "10",
+    stroke: "currentColor",
+    strokeWidth: "4"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("path", {
+    className: "opacity-75",
+    fill: "currentColor",
+    d: "M4 12a8 8 0 018-8v8H4z"
+  })), "Logging in...") : "Login")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "text-center text-black text-sm mt-4"
   }, "Don't have an account?", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     href: "#/signup",

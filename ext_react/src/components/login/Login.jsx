@@ -7,6 +7,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [storedValue, setStoredValue] = useChromeStorage("token");
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -23,12 +24,11 @@ const LoginForm = () => {
       validationErrors.email = "Please enter a valid email address ";
     }
     if (!password.trim() || password.length < 4) {
-      validationErrors.password = "password must be at least 6 char long";
+      validationErrors.password = "Password must be at least 6 characters long";
     }
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
   };
-
 
   const fetchProfileData = async (token) => {
     try {
@@ -39,15 +39,15 @@ const LoginForm = () => {
           'Content-Type': 'application/json'
         }
       });
-  
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-  
+
       const data = await response.json();
 
       try {
-        await chrome.storage.local.set({userProfile:data});
+        await chrome.storage.local.set({ userProfile: data });
         console.log('Profile stored successfully', data);
       } catch (error) {
         console.error("Error storing profile:", error);
@@ -60,7 +60,6 @@ const LoginForm = () => {
       throw error;
     }
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,6 +68,8 @@ const LoginForm = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const response = await fetch("https://api.twitterai.workers.dev/login", {
         method: "POST",
@@ -76,18 +77,26 @@ const LoginForm = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      if (!response.ok) {
+      const data = await response.json();
+
+      if (!response.ok || data.status === "User not exists") {
+        if (data.status === "Invalid password") {
+          setErrors({ password: "Invalid password" });
+        } else if (data.status === "User not exists") {
+          setErrors({ email: "User does not exist" });
+        } else {
+          setErrors({ general: "Login failed. Please check your credentials." });
+        }
         throw new Error("Login failed");
       }
 
-      const data = await response.json();
       const token = data.token;
-      if ((data.status = "Logged In" && data.token)) {
+      if (data.status === "Logged In" && data.token) {
         setStoredValue(token);
         console.log("Logged In");
-        fetchProfileData(token);
+        await fetchProfileData(token);
         navigate("/");
-      }else{
+      } else {
         console.log(data.status);
         console.log(data);
       }
@@ -95,7 +104,9 @@ const LoginForm = () => {
       setEmail("");
       setPassword("");
     } catch (error) {
-      setErrors({ general: "Login failed. Please check your credentials." });
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -112,6 +123,9 @@ const LoginForm = () => {
           Login
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
+          {errors.general && (
+            <p className="text-red-500 text-xs text-center">{errors.general}</p>
+          )}
           <div className="flex flex-col">
             <label
               htmlFor="email"
@@ -156,9 +170,38 @@ const LoginForm = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
+            className={`w-full py-2 rounded-md text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 ${
+              loading ? "bg-orange-300 cursor-not-allowed" : "bg-orange-500 hover:bg-orange-600"
+            }`}
+            disabled={loading}
           >
-            Login
+            {loading ? (
+              <div className="flex justify-center items-center">
+                <svg
+                  className="w-5 h-5 mr-3 text-white animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+                Logging in...
+              </div>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
         <p className="text-center text-black text-sm mt-4">

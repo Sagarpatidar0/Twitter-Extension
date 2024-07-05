@@ -18,6 +18,23 @@
     console.log("Flowbite script loaded successfully.");
   };
 
+  // ------------------------ Load Local Data   ------------------------
+
+  let token = null;
+  let profile = null;
+  let login = false;
+  chrome.storage.local.get("token", (data) => {
+    if (data.token) {
+      login = true;
+      token = data.token;
+    }
+  });
+  chrome.storage.local.get("userProfile", (data) => {
+    if (data.userProfile) {
+      profile = data.userProfile;
+    }
+  });
+
   // ------------------------ Button  ------------------------
 
   let tablist;
@@ -41,6 +58,20 @@
 
     tablist.appendChild(newDiv);
     console.log("visual added");
+  }
+
+  // ------------------------ Select Options  ------------------------
+
+  function populateSelectOptions() {
+    const selectElement = document.getElementById("select_profile");
+    console.log(selectElement);
+
+    profile.forEach((profile) => {
+      const option = document.createElement("option");
+      option.value = profile.id;
+      option.textContent = profile.name;
+      selectElement.appendChild(option);
+    });
   }
 
   // ------------------------ popup  ------------------------
@@ -72,10 +103,8 @@
       <div class="px-3 py-2">
         <p id="ai-reply-text">Hold on AI is cooking some thing  pernislized for you!</p>
       </div>
-       <select class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-            <option>Profile 1</option>
-            <option>Profile 2</option>
-            <option>Profile 3</option>
+       <select id="select_profile" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            
         </select>
          <div class="flex justify-end space-x-4 mt-4 mb-2 pr-1">
             <button id="regenerate-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -88,7 +117,7 @@
   `;
 
       body.appendChild(popup);
-
+      populateSelectOptions();
       const closePopup = document.getElementById("close-popup");
       closePopup.addEventListener("click", () => {
         body.removeChild(popup);
@@ -116,22 +145,37 @@
           if (textElement) {
             extractedText = textElement.innerText.split("\n")[4];
           }
-          makeApiCall(extractedText);
+          if (login) {
+            makeApiCall(extractedText);
+          } else {
+            alert("Please login to use this feature!");
+            document.getElementById("ai-reply-text").innerText =
+              "Please login to use this feature!\n Click on the extension icon to login.";
+          }
         });
       }
     }
   };
+
   // ------------------------ api call  ------------------------
 
   async function makeApiCall(input) {
-    const apiUrl = "https://twitterai-backend.lindasmith03.workers.dev/test1";
+    let id = profile[0].id;
+    const selectElement = document.getElementById("select_profile").value;
+
+    if (selectElement) {
+      id = selectElement;
+    }
+
+    const apiUrl = "https://api.twitterai.workers.dev/auth/generate";
 
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
-        body: JSON.stringify({ tweet: input }),
+        body: JSON.stringify({ profile: Number(id), tweet: input }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: token,
         },
       });
 
@@ -139,9 +183,9 @@
         throw new Error("Network response was not ok" + response.statusText);
       }
 
-      const replyMsg = await response.text();
+      const replyMsg = await response.json();
       console.log("API call data:", replyMsg);
-      document.getElementById("ai-reply-text").innerText = replyMsg;
+      document.getElementById("ai-reply-text").innerText = replyMsg.response;
     } catch (error) {
       console.error(
         "There has been a problem with your fetch operation:",
@@ -164,7 +208,11 @@
       }
       console.log(extractedText);
       openPopup();
-      makeApiCall(extractedText);
+      if (login) {
+        makeApiCall(extractedText);
+      }else{
+        document.getElementById("ai-reply-text").innerText = "Please login to use this feature!\n Click on the extension icon to login.";
+      }
     });
   }
 })();

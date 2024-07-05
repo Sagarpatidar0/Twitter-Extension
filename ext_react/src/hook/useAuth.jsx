@@ -4,9 +4,15 @@ import { AuthContext } from "../contexts/AuthContext";
 
 const useAuth = () => {
   const [authData, setAuthData] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [limit, setLimit] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { isAuthenticated, login, logout: contextLogout } = useContext(AuthContext);
+  const {
+    isAuthenticated,
+    login,
+    logout: contextLogout,
+  } = useContext(AuthContext);
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +38,50 @@ const useAuth = () => {
         const data = await response.json();
         setAuthData(data);
         login();
+
+        try {
+          const response = await fetch(
+            "https://api.twitterai.workers.dev/auth/dashboard",
+            {
+              method: "GET",
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch");
+          }
+
+          const data = await response.json();
+          setUserData(data);
+        } catch (err) {
+          console.log(err);
+          setError(err.message);
+        }
+
+        try {
+          const response = await fetch(
+            "https://api.twitterai.workers.dev/auth/quota",
+            {
+              method: "GET",
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch");
+          }
+
+          const data = await response.json();
+          setLimit(data);
+        } catch (err) {
+          console.log(err);
+          setError(err.message);
+        }
       } catch (err) {
         console.log(err);
         setError(err.message);
@@ -65,7 +115,7 @@ const useAuth = () => {
     });
   }, [contextLogout, Navigate]);
 
-  return { authData, loading, error, isAuthenticated, logout };
+  return { authData, userData, limit, loading, error, isAuthenticated, logout };
 };
 
 export default useAuth;
