@@ -39,9 +39,7 @@
 
   let tablist;
   if (!tablist) {
-    tablist = document.getElementsByClassName(
-      "css-175oi2r r-1awozwy r-1ro0kt6 r-18u37iz r-16y2uox r-1pi2tsx r-1ny4l3l"
-    )[0];
+    tablist = document.querySelector('div[role="tablist"]');
   }
 
   if (tablist) {
@@ -58,6 +56,9 @@
 
     tablist.appendChild(newDiv);
     console.log("visual added");
+
+  
+    
   }
 
   // ------------------------ Select Options  ------------------------
@@ -122,6 +123,19 @@
       closePopup.addEventListener("click", () => {
         body.removeChild(popup);
       });
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                console.log('Element is in view');
+            } else {
+              body.removeChild(popup);
+            }
+        });
+    });
+
+    let newDiv = document.getElementsByClassName("new-content")[0];
+    observer.observe(newDiv);
 
       // ------------------------ Copy Button  ------------------------
       const copyButton = document.getElementById("copy-btn");
@@ -209,9 +223,11 @@
       console.log(extractedText);
       openPopup();
       if (login) {
-        makeApiCall(extractedText);
-      }else{
-        document.getElementById("ai-reply-text").innerText = "Please login to use this feature!\n Click on the extension icon to login.";
+        document.getElementById("ai-reply-text").innerText =
+          "Please login to use this feature!\n Click on the extension icon to login.";
+      } else {
+        document.getElementById("ai-reply-text").innerText =
+          "Please login to use this feature!\n Click on the extension icon to login.";
       }
     });
   }
