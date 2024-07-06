@@ -84,6 +84,7 @@
   }
 
   // ------------------------ popup  ------------------------
+  let profileSelected = false;
   const openPopup = () => {
     if (!(document.getElementsByClassName("popup").length > 0)) {
       console.log("popup not found");
@@ -102,9 +103,9 @@
       popup.innerHTML = `
       <div      data-popover      id="popover-left"      role="tooltip"      class="absolute z-10 inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 opacity-100 visible"    >
       <div class="popup-header">
-        <button id="close-popup">X</button>
+        <button id="close-popup" class="px-3 py-2">X</button>
       </div>
-      <div        class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"      >
+      <div        class="px-3 py-2 my-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"      >
         <h3 class="font-semibold text-gray-900 dark:text-white">
           Twitter AI
         </h3>
@@ -184,6 +185,11 @@
   async function makeApiCall(input) {
     let id = profile[0].id;
     const selectElement = document.getElementById("select_profile").value;
+    document.getElementById("ai-reply-text").innerHTML = `
+      <div class="flex animate-pulse space-x-4">
+        <div class="w-full h-8 bg-gray-500 rounded-3xl mb-4"></div>
+      </div>
+    `;
 
     if (selectElement) {
       id = selectElement;
@@ -232,7 +238,7 @@
       openPopup();
       if (login) {
         document.getElementById("ai-reply-text").innerText =
-          "Please login to use this feature!\n Click on the extension icon to login.";
+          "Please select profile you want to use to reply with.";
       } else {
         document.getElementById("ai-reply-text").innerText =
           "Please login to use this feature!\n Click on the extension icon to login.";
