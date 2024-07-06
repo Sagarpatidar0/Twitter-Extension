@@ -91,13 +91,50 @@ const useAuth = () => {
       }
     };
 
+    const fetchProfileData = async (token) => {
+      try {
+        const response = await fetch(
+          "https://api.twitterai.workers.dev/auth/profile",
+          {
+            method: "GET",
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+
+        try {
+          await chrome.storage.local.set({ userProfile: data });
+          console.log("Profile stored successfully", data);
+        } catch (error) {
+          console.error("Error storing profile:", error);
+        }
+
+        return data;
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+        throw error;
+      }
+    };
+
     chrome.storage.local.get(["token"], (result) => {
       console.log("Result ", result);
       if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError);
       } else {
         const token = result.token;
-        fetchAuthData(token);
+        if (token) {
+          console.log("Token found", token);
+          fetchAuthData(token);
+          fetchProfileData(token);
+        }
       }
     });
   }, [login, contextLogout]);

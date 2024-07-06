@@ -69,79 +69,22 @@ var LoginForm = function LoginForm() {
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
   };
-  var fetchProfileData = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(token) {
-      var response, data;
+  var handleSubmit = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
+      var response, data, token;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
-            return fetch('https://api.twitterai.workers.dev/auth/profile', {
-              method: 'GET',
-              headers: {
-                'Authorization': token,
-                'Content-Type': 'application/json'
-              }
-            });
-          case 3:
-            response = _context.sent;
-            if (response.ok) {
-              _context.next = 6;
-              break;
-            }
-            throw new Error('Network response was not ok');
-          case 6:
-            _context.next = 8;
-            return response.json();
-          case 8:
-            data = _context.sent;
-            _context.prev = 9;
-            _context.next = 12;
-            return chrome.storage.local.set({
-              userProfile: data
-            });
-          case 12:
-            console.log('Profile stored successfully', data);
-            _context.next = 18;
-            break;
-          case 15:
-            _context.prev = 15;
-            _context.t0 = _context["catch"](9);
-            console.error("Error storing profile:", _context.t0);
-          case 18:
-            return _context.abrupt("return", data);
-          case 21:
-            _context.prev = 21;
-            _context.t1 = _context["catch"](0);
-            console.error('Error fetching profile data:', _context.t1);
-            throw _context.t1;
-          case 25:
-          case "end":
-            return _context.stop();
-        }
-      }, _callee, null, [[0, 21], [9, 15]]);
-    }));
-    return function fetchProfileData(_x) {
-      return _ref.apply(this, arguments);
-    };
-  }();
-  var handleSubmit = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(e) {
-      var response, data, token;
-      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-        while (1) switch (_context2.prev = _context2.next) {
-          case 0:
             e.preventDefault();
             if (validate()) {
-              _context2.next = 3;
+              _context.next = 3;
               break;
             }
-            return _context2.abrupt("return");
+            return _context.abrupt("return");
           case 3:
             setLoading(true);
-            _context2.prev = 4;
-            _context2.next = 7;
+            _context.prev = 4;
+            _context.next = 7;
             return fetch("https://api.twitterai.workers.dev/login", {
               method: "POST",
               headers: {
@@ -153,13 +96,13 @@ var LoginForm = function LoginForm() {
               })
             });
           case 7:
-            response = _context2.sent;
-            _context2.next = 10;
+            response = _context.sent;
+            _context.next = 10;
             return response.json();
           case 10:
-            data = _context2.sent;
+            data = _context.sent;
             if (!(!response.ok || data.status === "User not exists")) {
-              _context2.next = 14;
+              _context.next = 14;
               break;
             }
             if (data.status === "Invalid password") {
@@ -178,42 +121,34 @@ var LoginForm = function LoginForm() {
             throw new Error("Login failed");
           case 14:
             token = data.token;
-            if (!(data.status === "Logged In" && data.token)) {
-              _context2.next = 23;
-              break;
+            if (data.status === "Logged In" && data.token) {
+              setStoredValue(token);
+              console.log("Logged In");
+              navigate("/");
+            } else {
+              console.log(data.status);
+              console.log(data);
             }
-            setStoredValue(token);
-            console.log("Logged In");
-            _context2.next = 20;
-            return fetchProfileData(token);
-          case 20:
-            navigate("/");
-            _context2.next = 25;
-            break;
-          case 23:
-            console.log(data.status);
-            console.log(data);
-          case 25:
             setEmail("");
             setPassword("");
-            _context2.next = 32;
+            _context.next = 23;
             break;
-          case 29:
-            _context2.prev = 29;
-            _context2.t0 = _context2["catch"](4);
-            console.error(_context2.t0);
-          case 32:
-            _context2.prev = 32;
+          case 20:
+            _context.prev = 20;
+            _context.t0 = _context["catch"](4);
+            console.error(_context.t0);
+          case 23:
+            _context.prev = 23;
             setLoading(false);
-            return _context2.finish(32);
-          case 35:
+            return _context.finish(23);
+          case 26:
           case "end":
-            return _context2.stop();
+            return _context.stop();
         }
-      }, _callee2, null, [[4, 29, 32, 35]]);
+      }, _callee, null, [[4, 20, 23, 26]]);
     }));
-    return function handleSubmit(_x2) {
-      return _ref2.apply(this, arguments);
+    return function handleSubmit(_x) {
+      return _ref.apply(this, arguments);
     };
   }();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {

@@ -95,7 +95,11 @@ const Profiles = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center max-h-screen min-h-full bg-gray-100 p-4">
+      {loading && <p className="text-xl text-gray-700">Loading...</p>}
+      </div>
+    );
   }
 
   if (error) {

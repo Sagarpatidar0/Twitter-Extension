@@ -30,36 +30,7 @@ const LoginForm = () => {
     return Object.keys(validationErrors).length === 0;
   };
 
-  const fetchProfileData = async (token) => {
-    try {
-      const response = await fetch('https://api.twitterai.workers.dev/auth/profile', {
-        method: 'GET',
-        headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-
-      try {
-        await chrome.storage.local.set({ userProfile: data });
-        console.log('Profile stored successfully', data);
-      } catch (error) {
-        console.error("Error storing profile:", error);
-      }
-
-      return data;
-
-    } catch (error) {
-      console.error('Error fetching profile data:', error);
-      throw error;
-    }
-  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,7 +65,6 @@ const LoginForm = () => {
       if (data.status === "Logged In" && data.token) {
         setStoredValue(token);
         console.log("Logged In");
-        await fetchProfileData(token);
         navigate("/");
       } else {
         console.log(data.status);
