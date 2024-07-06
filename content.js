@@ -39,7 +39,18 @@
 
   let tablist;
   if (!tablist) {
-    tablist = document.querySelector('div[role="tablist"]');
+    // tablist = document.querySelector('div[role="tablist"]');
+    const xpathExpression =
+      '//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[2]/div/div/div/div[2]/div[2]/div/div/nav/div/div[2]/div';
+
+    const result = document.evaluate(
+      xpathExpression,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    );
+    tablist = result.singleNodeValue;
   }
 
   if (tablist) {
@@ -56,9 +67,6 @@
 
     tablist.appendChild(newDiv);
     console.log("visual added");
-
-  
-    
   }
 
   // ------------------------ Select Options  ------------------------
@@ -125,17 +133,17 @@
       });
 
       const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                console.log('Element is in view');
-            } else {
-              body.removeChild(popup);
-            }
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            console.log("Element is in view");
+          } else {
+            body.removeChild(popup);
+          }
         });
-    });
+      });
 
-    let newDiv = document.getElementsByClassName("new-content")[0];
-    observer.observe(newDiv);
+      let newDiv = document.getElementsByClassName("new-content")[0];
+      observer.observe(newDiv);
 
       // ------------------------ Copy Button  ------------------------
       const copyButton = document.getElementById("copy-btn");
