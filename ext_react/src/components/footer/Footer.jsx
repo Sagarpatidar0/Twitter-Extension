@@ -3,10 +3,12 @@ import "flowbite";
 import "./Footer.css";
 import useAuth from "../../hook/useAuth";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
   const { isAuthenticated } = useContext(AuthContext);
   const { limit, loading, logout } = useAuth();
+  const Navigate = useNavigate();
 
   useEffect(() => {
 
@@ -16,6 +18,10 @@ export default function Footer() {
 
 
   }, []);
+
+  const handleClick = () => {
+    Navigate("/")
+  }
 
   return (
     <div id="footer" className="">
@@ -40,7 +46,7 @@ export default function Footer() {
             data-popover-placement="top"
             type="button"
             className="text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center "
-            onClick={logout}
+            onClick={handleClick}
           >
             <img
               src="chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/profile.png"
@@ -57,7 +63,7 @@ export default function Footer() {
         >
           <div className="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-lg dark:border-gray-600 dark:bg-gray-700">
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              {isAuthenticated ? "Logout" : "Login"}
+              {isAuthenticated ? "Dashboard" : "Login"}
             </h3>
           </div>
           <div data-popper-arrow></div>

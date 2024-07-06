@@ -7871,6 +7871,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Footer_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Footer.css */ "./src/components/footer/Footer.css");
 /* harmony import */ var _hook_useAuth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../hook/useAuth */ "./src/hook/useAuth.jsx");
 /* harmony import */ var _contexts_AuthContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../contexts/AuthContext */ "./src/contexts/AuthContext.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+
 
 
 
@@ -7883,11 +7885,15 @@ function Footer() {
     limit = _useAuth.limit,
     loading = _useAuth.loading,
     logout = _useAuth.logout;
+  var Navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var _require = __webpack_require__(/*! flowbite */ "./node_modules/flowbite/lib/esm/index.js"),
       initFlowbite = _require.initFlowbite;
     initFlowbite();
   }, []);
+  var handleClick = function handleClick() {
+    Navigate("/");
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     id: "footer",
     className: ""
@@ -7908,7 +7914,7 @@ function Footer() {
     "data-popover-placement": "top",
     type: "button",
     className: "text-white ml-1 mb-1 px-4 py-2 me-4 hover:bg-hover  focus:outline-none font-medium rounded-lg text-sm  text-center ",
-    onClick: logout
+    onClick: handleClick
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: "chrome-extension://bihmplhobchoageeokmgbdihknkjbknd/static/assets/menu/profile.png",
     alt: ""
@@ -7921,7 +7927,7 @@ function Footer() {
     className: "px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-lg dark:border-gray-600 dark:bg-gray-700"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", {
     className: "font-semibold text-gray-900 dark:text-white"
-  }, isAuthenticated ? "Logout" : "Login")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, isAuthenticated ? "Dashboard" : "Login")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     "data-popper-arrow": true
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "footer-item"
