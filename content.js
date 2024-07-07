@@ -52,9 +52,9 @@
     );
     tablist = result.singleNodeValue;
   }
-
+  let newDiv;
   if (tablist) {
-    let newDiv = document.createElement("div");
+    newDiv = document.createElement("div");
     newDiv.setAttribute("role", "presentation");
     newDiv.className = "css-175oi2r r-14tvyh0 r-cpa5s6 ai-btn";
     newDiv.style.position = "relative";
@@ -83,8 +83,43 @@
     });
   }
 
+  // ------------------------ Post Page btn  ------------------------
+
+  const input = document.getElementsByClassName(
+    "public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
+  )[0];
+  if (input) {
+    input.addEventListener("click", (e) => {
+      console.log("clicked");
+      const xpathExpression2 =
+        '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/section/div/div/div[1]/div/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[2]/div[2]/div/div/nav/div/div[2]/div';
+      const result = document.evaluate(
+        xpathExpression2,
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+      );
+      const tablistPostPage = result.singleNodeValue;
+
+      if (tablistPostPage) {
+        let newDiv = document.createElement("div");
+        newDiv.setAttribute("role", "presentation");
+        newDiv.className = "css-175oi2r r-14tvyh0 r-cpa5s6 ai-btn";
+        newDiv.style.position = "relative";
+
+        newDiv.innerHTML = `
+    <div class="new-content">
+        <button id="x-ai-replay" data-popover-target="popover-left" data-popover-placement="left" type="button" class="text-white mb-3 me-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">AI Replay</button>
+    </div>
+  `;
+
+        tablistPostPage.appendChild(newDiv);
+      }
+    });
+  }
+
   // ------------------------ popup  ------------------------
-  let profileSelected = false;
   const openPopup = () => {
     if (!(document.getElementsByClassName("popup").length > 0)) {
       console.log("popup not found");

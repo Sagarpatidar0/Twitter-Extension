@@ -18,7 +18,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://x.com/compose/post"],
+      "matches": ["https://x.com/*"],
       "js": ["content.js"]
     },
     {
