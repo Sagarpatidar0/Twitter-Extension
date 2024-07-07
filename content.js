@@ -85,9 +85,7 @@
 
   // ------------------------ Post Page btn  ------------------------
 
-  const input = document.getElementsByClassName(
-    "public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
-  )[0];
+  const input = document.querySelector('body');
   if (input) {
     input.addEventListener("click", (e) => {
       console.log("clicked");
@@ -101,8 +99,10 @@
         null
       );
       const tablistPostPage = result.singleNodeValue;
+      console.log(tablistPostPage)
+      let btnAdded = false;
 
-      if (tablistPostPage) {
+      if (tablistPostPage && !btnAdded) {
         let newDiv = document.createElement("div");
         newDiv.setAttribute("role", "presentation");
         newDiv.className = "css-175oi2r r-14tvyh0 r-cpa5s6 ai-btn";
@@ -115,6 +115,7 @@
   `;
 
         tablistPostPage.appendChild(newDiv);
+        btnAdded = true;
       }
     });
   }
