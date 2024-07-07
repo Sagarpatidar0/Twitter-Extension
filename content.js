@@ -36,7 +36,7 @@
   });
 
   // ------------------------ Button  ------------------------
-
+setTimeout(() => {
   let tablist;
   if (!tablist) {
     // tablist = document.querySelector('div[role="tablist"]');
@@ -68,13 +68,12 @@
     tablist.appendChild(newDiv);
     console.log("visual added");
   }
-
   // ------------------------ Select Options  ------------------------
-
-  function populateSelectOptions() {
+  
+   populateSelectOptions = () => {
     const selectElement = document.getElementById("select_profile");
     console.log(selectElement);
-
+    
     profile.forEach((profile) => {
       const option = document.createElement("option");
       option.value = profile.id;
@@ -82,7 +81,9 @@
       selectElement.appendChild(option);
     });
   }
-
+  
+}, 100);
+let populateSelectOptions;
   // ------------------------ Post Page btn  ------------------------
 
   const input = document.getElementsByClassName(
