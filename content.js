@@ -41,12 +41,9 @@
 
   const callback = (mutationList, observer) => {
     for (const mutation of mutationList) {
-      if ((mutation.type === "attributes" && mutation.attributeName == 'role') || (mutation.type === "childList" && mutation.target.getAttribute('class') == 'css-175oi2r r-kemksi r-jumn1c r-xd6kpl r-gtdqiz r-ipm5af r-184en5c')) {
-        if (mutation.target.getAttribute('role') == 'tab' || mutation.target.getAttribute('class') == 'css-175oi2r r-kemksi r-jumn1c r-xd6kpl r-gtdqiz r-ipm5af r-184en5c') {
+      if (mutation.type === "childList") {
+        if ((mutation.target.getAttribute('class') == "css-175oi2r r-slzeqm r-ly4kne r-16y2uox r-1wbh5a2 r-1dqxon3" && mutation.addedNodes[0].className == 'css-175oi2r') || mutation.target.getAttribute('class') == 'css-175oi2r r-kemksi r-jumn1c r-xd6kpl r-gtdqiz r-ipm5af r-184en5c') {
           console.log(mutation)
-          console.log(`The ${mutation.attributeName} attribute was modified.`);
-          console.log(mutation.target.getAttribute('role'))
-
           // let tablist = document.querySelector('div[role="tablist"]');
           // let tablist = document.querySelector("//nav[@aria-live='polite' and @role='navigation']");
           // const xpathExpression ='//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[3]/div[2]/div[2]/div/div/div/div[2]/div[2]/div/div/nav/div/div[2]/div';
@@ -54,7 +51,7 @@
           // const xpathExpression = "//span[text()='Reply']";
           // const xpathExpression = "//nav[@aria-live='polite' and @role='navigation' and @class='r-knv0ih r-13awgt0 r-m5k245']";
           // const xpathExpression = "//nav[@role='navigation' and @class='css-175oi2r r-1awozwy r-18u37iz r-knv0ih r-13awgt0 r-m5k245']";
-          setTimeout(() => {
+          const call = () => {
             console.log("Xpath started");
             const xpathExpression = "//div[button/div/span/span[text()='Reply']]/preceding-sibling::*";
             const result = document.evaluate(
@@ -296,7 +293,18 @@
                 }
               });
             }
-          }, 100)
+          }
+          // setTimeout(() => {
+          call();
+          // let counttt = 0
+          // const intervalId = setInterval(() => {
+          //   console.log("Interval started" , counttt++);
+          //   if (document.getElementsByClassName('ai-btn').length > 0) {
+          //     clearInterval(intervalId);
+          //   }
+          //   call()
+          // }, 100)
+          // }, 100);
         }
 
       }
