@@ -82,7 +82,6 @@ setTimeout(() => {
     });
   }
   
-}, 100);
 let populateSelectOptions;
   // ------------------------ Post Page btn  ------------------------
 
@@ -281,4 +280,5 @@ let populateSelectOptions;
       }
     });
   }
+}, 100);
 })();
