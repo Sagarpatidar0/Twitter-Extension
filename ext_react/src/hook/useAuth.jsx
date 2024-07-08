@@ -56,32 +56,33 @@ const useAuth = () => {
 
           const data = await response.json();
           setUserData(data);
+          setLimit(data)
         } catch (err) {
           console.log(err);
           setError(err.message);
         }
 
-        try {
-          const response = await fetch(
-            "https://api.twitterai.workers.dev/auth/quota",
-            {
-              method: "GET",
-              headers: {
-                Authorization: token,
-              },
-            }
-          );
+        // try {
+        //   const response = await fetch(
+        //     "https://api.twitterai.workers.dev/auth/quota",
+        //     {
+        //       method: "GET",
+        //       headers: {
+        //         Authorization: token,
+        //       },
+        //     }
+        //   );
 
-          if (!response.ok) {
-            throw new Error("Failed to fetch");
-          }
+        //   if (!response.ok) {
+        //     throw new Error("Failed to fetch");
+        //   }
 
-          const data = await response.json();
-          setLimit(data);
-        } catch (err) {
-          console.log(err);
-          setError(err.message);
-        }
+        //   const data = await response.json();
+        //   setLimit(data);
+        // } catch (err) {
+        //   console.log(err);
+        //   setError(err.message);
+        // }
       } catch (err) {
         console.log(err);
         setError(err.message);
