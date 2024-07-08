@@ -7810,6 +7810,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _hook_useAuth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../hook/useAuth */ "./src/hook/useAuth.jsx");
 /* harmony import */ var _contexts_AuthContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/AuthContext */ "./src/contexts/AuthContext.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+
 
 
 
@@ -7823,6 +7825,10 @@ function Home() {
     logout = _useAuth.logout;
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AuthContext__WEBPACK_IMPORTED_MODULE_2__.AuthContext),
     isAuthenticated = _useContext.isAuthenticated;
+  var Navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useNavigate)();
+  if (!isAuthenticated && !loading) {
+    Navigate('/login');
+  }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex flex-col items-center justify-center max-h-screen min-h-full bg-gray-100 p-4"
   }, loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {

@@ -1,10 +1,16 @@
 import React, { useContext } from 'react'
 import useAuth from '../hook/useAuth';
 import { AuthContext } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const { authData, userData, limit, loading, error, logout } = useAuth();
   const { isAuthenticated } = useContext(AuthContext);
+  const Navigate = useNavigate();
+
+  if(!isAuthenticated && !loading) {
+    Navigate('/login');
+  }
 
   return (
     <div className="flex flex-col items-center justify-center max-h-screen min-h-full bg-gray-100 p-4">
