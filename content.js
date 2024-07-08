@@ -4,11 +4,13 @@
   let token = null;
   let profile = null;
   let login = false;
+  let quotaRemaining = null;
   chrome.storage.local.get("token", (data) => {
     if (data.token) {
       login = true;
       token = data.token;
       fetchProfiles(token);
+      fetchQuotaRemaining();
     }
   });
   const fetchProfiles = async (token) => {
@@ -34,6 +36,36 @@
       const data = await response.json();
       console.log("Profile data:", data);
       profile = data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const fetchQuotaRemaining = async () => {
+    if (!token || !login) return false;
+
+    console.log("Fetching quota remaining");
+    try {
+      const response = await fetch(
+        "https://api.twitterai.workers.dev/auth/quota",
+        {
+          method: "GET",
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch quota remaining");
+      }
+
+      const data = await response.json();
+      console.log("Quota data:", data);
+      quotaRemaining = data.remaining_quota;
+
+      if (quotaRemaining === 0) {
+        alert("You have exhausted your quota for today!");
+      }
     } catch (err) {
       console.log(err.message);
     }
@@ -248,9 +280,14 @@
             if (textElement) {
               extractedText = textElement.innerText.split("\n")[4];
             }
-            if (login) {
+            if (login && quotaRemaining > 0) {
+              quotaRemaining--;
               makeApiCall(extractedText);
-            } else {
+            }else if(quotaRemaining === 0){
+              document.getElementById("ai-reply-text").innerText = "You have exhausted your quota for today!"
+              alert("You have exhausted your quota for today!");
+            }
+             else {
               alert("Please login to use this feature!");
               document.getElementById("ai-reply-text").innerText =
                 "Please login to use this feature!\n Click on the extension icon to login.";
@@ -304,23 +341,21 @@
 
     // ------------------------ event listener  ------------------------
 
-setTimeout(() => {
-    const allBtn = document.getElementsByClassName(
-      "css-175oi2r r-1777fci r-bt1l66 r-bztko3 r-lrvibr r-1loqt21 r-1ny4l3l"
-    );
-    if(allBtn) {
-      Array.from(allBtn).forEach((btn) => {
-        if (btn.ariaLabel.includes("Reply")) {
-          btn.addEventListener("click", () => {
-            if (!document.getElementById("x-ai-replay")) {
-              addVisual();
-            }
-          });
-        }
-      });
-    }
-  }, 1000);
-    
-
+    setTimeout(() => {
+      const allBtn = document.getElementsByClassName(
+        "css-175oi2r r-1777fci r-bt1l66 r-bztko3 r-lrvibr r-1loqt21 r-1ny4l3l"
+      );
+      if (allBtn) {
+        Array.from(allBtn).forEach((btn) => {
+          if (btn.ariaLabel.includes("Reply")) {
+            btn.addEventListener("click", () => {
+              if (!document.getElementById("x-ai-replay")) {
+                addVisual();
+              }
+            });
+          }
+        });
+      }
+    }, 1000);
   }, 100);
 })();
