@@ -7830,12 +7830,15 @@ function Home() {
     if (!isAuthenticated) {
       Navigate("/login");
     }
-  }, [isAuthenticated]);
+  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "flex flex-col items-center justify-center max-h-screen min-h-full bg-gray-100 p-4"
   }, loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "text-xl text-gray-700"
-  }), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+    src: "https://github.com/Sagarpatidar0/Twitter-Extension/blob/main/images/Infinity.gif?raw=true",
+    alt: ""
+  })), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
     className: "text-red-500"
   }, error), isAuthenticated && !loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-center"

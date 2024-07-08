@@ -12,12 +12,11 @@ export default function Home() {
     if (!isAuthenticated) {
       Navigate("/login");
     }
-  }, [isAuthenticated]);
-
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center max-h-screen min-h-full bg-gray-100 p-4">
-      {loading && <p className="text-xl text-gray-700"></p>}
+      {loading && <p className="text-xl text-gray-700"><img src="https://github.com/Sagarpatidar0/Twitter-Extension/blob/main/images/Infinity.gif?raw=true" alt="" /></p>}
       {error && <p className="text-red-500">{error}</p>}
       {isAuthenticated && !loading ? (
         <>
