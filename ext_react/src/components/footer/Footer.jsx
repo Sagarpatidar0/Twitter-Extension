@@ -155,7 +155,7 @@ export default function Footer() {
             <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
               <div
                 className="bg-red-600 h-2.5 rounded-full"
-                style={{ width: `${(dashboard?.remaining_quota) * 10}%`}}
+                style={{ width: `${(dashboard?.remaining_quota) * 100/dashboard.daily_quota}%`}}
               ></div>
             </div>
             <a

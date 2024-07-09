@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./profile.css";
 import Spinner from "../Spinner";
 import useStorage from "../../hook/useStorage";
@@ -10,6 +10,7 @@ const Profiles = () => {
   const [profiles, setProfiles] = useState(null);
   const [error, setError] = useState(null);
   const { isAuthenticated } = useAuth();
+  const  Navigate  = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -67,6 +68,11 @@ const Profiles = () => {
 
   if (error) {
     return <div>Error: {error}</div>;
+  }
+
+  if (!isAuthenticated) {
+    alert("Please login to view profile")
+    Navigate("/login");
   }
 
 

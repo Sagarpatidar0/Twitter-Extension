@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useStorage from "../../hook/useStorage";
+import useAuth from "../../hook/useAuth";
 
 const CreateProfileForm = () => {
   const [name, setName] = useState("");
@@ -9,7 +10,9 @@ const CreateProfileForm = () => {
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(3);
   const { fetchDataAndStore, loading: fetchLoading } = useStorage();
+  const { isAuthenticated } = useAuth();
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +34,7 @@ const CreateProfileForm = () => {
     };
 
     getToken();
-  }, []);
+  }, [isAuthenticated]);
 
   const validate = () => {
     const validationErrors = {};
@@ -99,6 +102,32 @@ const CreateProfileForm = () => {
       console.log("Profile creation failed");
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!isAuthenticated) {
+    setTimeout(() => {
+      Navigate("/login");
+    }, 3000);
+    return (
+      <div className="flex flex-col items-center justify-center h-full  bg-gray-100 p-4">
+        <div className="bg-white p-4 rounded-lg shadow-lg w-full">
+          <h1 className="text-2xl font-bold text-center mb-4 text-orange-600">
+            Create Profile
+          </h1>
+          <p className="text-red-500 text-xs mt-2">Please login to create profile</p>
+          <p className="text-red-500 text-xs mt-2">Redirect to login page in {timer}</p>
+        </div>
+      </div>
+    );
+    
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-full  bg-gray-100 p-4">
