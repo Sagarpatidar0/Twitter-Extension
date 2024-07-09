@@ -42,5 +42,5 @@
       "128": "images/icon.png"
     }
   },
-  "host_permissions": ["https://x.com/*", "https://x.com/"]
+  "host_permissions": ["https://x.com/*", "https://x.com/" , "*://api.twitterai.workers.dev/*"]
 }
