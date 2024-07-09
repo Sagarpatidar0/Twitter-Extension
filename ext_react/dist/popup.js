@@ -8414,63 +8414,6 @@ var useAuth = function useAuth() {
         return _ref.apply(this, arguments);
       };
     }();
-    var fetchProfileData = /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(token) {
-        var response, data;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
-              return fetch("https://api.twitterai.workers.dev/auth/profile", {
-                method: "GET",
-                headers: {
-                  Authorization: token,
-                  "Content-Type": "application/json"
-                }
-              });
-            case 3:
-              response = _context2.sent;
-              if (response.ok) {
-                _context2.next = 6;
-                break;
-              }
-              throw new Error("Network response was not ok");
-            case 6:
-              _context2.next = 8;
-              return response.json();
-            case 8:
-              data = _context2.sent;
-              _context2.prev = 9;
-              _context2.next = 12;
-              return chrome.storage.local.set({
-                userProfile: data
-              });
-            case 12:
-              console.log("Profile stored successfully", data);
-              _context2.next = 18;
-              break;
-            case 15:
-              _context2.prev = 15;
-              _context2.t0 = _context2["catch"](9);
-              console.error("Error storing profile:", _context2.t0);
-            case 18:
-              return _context2.abrupt("return", data);
-            case 21:
-              _context2.prev = 21;
-              _context2.t1 = _context2["catch"](0);
-              console.error("Error fetching profile data:", _context2.t1);
-              throw _context2.t1;
-            case 25:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, null, [[0, 21], [9, 15]]);
-      }));
-      return function fetchProfileData(_x2) {
-        return _ref2.apply(this, arguments);
-      };
-    }();
     chrome.storage.local.get(["token"], function (result) {
       console.log("Result ", result);
       if (chrome.runtime.lastError) {
