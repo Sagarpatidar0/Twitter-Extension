@@ -20,7 +20,6 @@ const useAuth = () => {
         setLoading(false);
         return;
       }
-
       setLoading(true);
       try {
         const response = await fetch("https://api.twitterai.workers.dev/auth", {
@@ -60,7 +59,7 @@ const useAuth = () => {
         }
       }
     });
-  }, [login, contextLogout]);
+  }, []);
 
   const logout = useCallback(() => {
     chrome.storage.local.remove("token", () => {
@@ -73,7 +72,7 @@ const useAuth = () => {
         Navigate("/");
       }
     });
-  }, [contextLogout, Navigate]);
+  });
 
   return { authData, loading, error, isAuthenticated, logout };
 };

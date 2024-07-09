@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {  useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import useStorage from "../../hook/useStorage";
 
 const UpdateProfileForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
   const [error, setError] = useState({});
-  const { id,buname,budescription, token } = useParams();
-  
+  const { id, buname, budescription, token } = useParams();
+  const { fetchDataAndStore } = useStorage();
+
   const Navigate = useNavigate();
 
   const validate = () => {
@@ -27,11 +29,9 @@ const UpdateProfileForm = () => {
       setName(buname);
       setDescription(budescription);
       console.log("Name and description updated successfully");
-    }else
-    {
+    } else {
       console.log("Name and description not updated");
     }
-
   }, []);
 
   const handleSubmit = async (e) => {
@@ -47,7 +47,7 @@ const UpdateProfileForm = () => {
     }
 
     try {
-      console.log("Updating profile", { id:Number(id), name});
+      console.log("Updating profile", { id: Number(id), name });
       const response = await fetch(
         `https://api.twitterai.workers.dev/auth/profile`,
         {
@@ -55,26 +55,25 @@ const UpdateProfileForm = () => {
           headers: {
             Authorization: token,
           },
-          body: JSON.stringify({ id:Number(id), name, description }),
+          body: JSON.stringify({ id: Number(id), name, description }),
         }
       );
-      console.log(response)
+      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to delete profile");
       }
-      if(response.ok) {
+      if (response.ok) {
         console.log("Profile updated successfully");
-        //  redirect to profile page
-        Navigate("/profile");
+        fetchDataAndStore(token).then(() => {
+          Navigate("/profile");
+        });
       }
       setName("");
       setDescription("");
-
     } catch (err) {
       setError(err.message);
       console.log("Profile not updated");
     }
-    
   };
 
   return (

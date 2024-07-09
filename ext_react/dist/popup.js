@@ -8426,7 +8426,7 @@ var useAuth = function useAuth() {
         }
       }
     });
-  }, [login, contextLogout]);
+  }, []);
   var logout = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
     chrome.storage.local.remove("token", function () {
       if (chrome.runtime.lastError) {
@@ -8438,7 +8438,7 @@ var useAuth = function useAuth() {
         Navigate("/");
       }
     });
-  }, [contextLogout, Navigate]);
+  });
   return {
     authData: authData,
     loading: loading,
