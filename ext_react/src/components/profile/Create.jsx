@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useStorage from "../../hook/useStorage";
 
 const CreateProfileForm = () => {
   const [name, setName] = useState("");
@@ -8,23 +9,24 @@ const CreateProfileForm = () => {
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { fetchDataAndStore, loading: fetchLoading } = useStorage();
   const Navigate = useNavigate();
 
   useEffect(() => {
     const getToken = async () => {
-      console.log('Getting token from storage');
+      console.log("Getting token from storage");
       try {
-        const result = await chrome.storage.local.get(['token']);
+        const result = await chrome.storage.local.get(["token"]);
         if (result.token) {
           setToken(result.token);
-          console.log('Token found:', result.token);
+          console.log("Token found:", result.token);
         } else {
-          console.error('Token not found');
-          setError('Token not found');
+          console.error("Token not found");
+          setError("Token not found");
         }
       } catch (error) {
-        console.error('Error retrieving token:', error);
-        setError('Error retrieving token');
+        console.error("Error retrieving token:", error);
+        setError("Error retrieving token");
       }
     };
 
@@ -47,7 +49,7 @@ const CreateProfileForm = () => {
     if (!token) return;
 
     setLoading(true);
-    console.log('Creating profile');
+    console.log("Creating profile");
     try {
       const response = await fetch(
         "https://api.twitterai.workers.dev/auth/profile",
@@ -65,8 +67,9 @@ const CreateProfileForm = () => {
         throw new Error("Failed to create profile");
       }
 
-      Navigate("/profile");
-
+      fetchDataAndStore(token).then(() => {
+        Navigate("/profile");
+      });
       setName("");
       setDescription("");
       setError(null);
@@ -75,7 +78,9 @@ const CreateProfileForm = () => {
       setError(err.message);
       return false;
     } finally {
-      setLoading(false);
+      if (!fetchLoading) {
+        setLoading(false);
+      }
     }
   };
 
@@ -88,16 +93,18 @@ const CreateProfileForm = () => {
 
     const status = await createProfile();
     if (status) {
-      console.log('Profile created successfully');
+      console.log("Profile created successfully");
     } else {
-      console.log('Profile creation failed');
+      console.log("Profile creation failed");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xs">
-        <h1 className="text-2xl font-bold text-center mb-4 text-orange-600">Create Profile</h1>
+    <div className="flex flex-col items-center justify-center h-full  bg-gray-100 p-4">
+      <div className="bg-white p-4 rounded-lg shadow-lg w-full">
+        <h1 className="text-2xl font-bold text-center mb-4 text-orange-600">
+          Create Profile
+        </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <label htmlFor="name" className="text-sm font-medium text-gray-700">
@@ -118,7 +125,10 @@ const CreateProfileForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label htmlFor="description" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="description"
+              className="text-sm font-medium text-gray-700"
+            >
               Description
             </label>
             <textarea
@@ -164,9 +174,7 @@ const CreateProfileForm = () => {
               "Create Profile"
             )}
           </button>
-          {error && (
-            <p className="text-red-500 text-xs mt-2">{error}</p>
-          )}
+          {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
         </form>
       </div>
     </div>

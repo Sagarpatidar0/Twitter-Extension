@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useChromeStorage } from "../../hook/useToken";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hook/useAuth";
+import useStorage from "../../hook/useStorage";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ const LoginForm = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [storedValue, setStoredValue] = useChromeStorage("token");
+  const { fetchDataAndStore } = useStorage();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -29,8 +31,6 @@ const LoginForm = () => {
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
   };
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +56,9 @@ const LoginForm = () => {
         } else if (data.status === "User not exists") {
           setErrors({ email: "User does not exist" });
         } else {
-          setErrors({ general: "Login failed. Please check your credentials." });
+          setErrors({
+            general: "Login failed. Please check your credentials.",
+          });
         }
         throw new Error("Login failed");
       }
@@ -64,8 +66,10 @@ const LoginForm = () => {
       const token = data.token;
       if (data.status === "Logged In" && data.token) {
         setStoredValue(token);
-        console.log("Logged In");
-        navigate("/");
+        fetchDataAndStore(token).then(() => {
+          console.log("Logged In");
+          navigate("/");
+        });
       } else {
         console.log(data.status);
         console.log(data);
@@ -141,7 +145,9 @@ const LoginForm = () => {
           <button
             type="submit"
             className={`w-full py-2 rounded-md text-white font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 ${
-              loading ? "bg-orange-300 cursor-not-allowed" : "bg-orange-500 hover:bg-orange-600"
+              loading
+                ? "bg-orange-300 cursor-not-allowed"
+                : "bg-orange-500 hover:bg-orange-600"
             }`}
             disabled={loading}
           >

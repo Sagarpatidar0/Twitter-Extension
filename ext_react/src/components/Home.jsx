@@ -2,40 +2,52 @@ import React, { useContext, useEffect } from "react";
 import useAuth from "../hook/useAuth";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
+import useStorage from "../hook/useStorage";
 
 export default function Home() {
-  const { authData, userData, limit, loading, error, logout } = useAuth();
+  const { error, logout } = useAuth();
+  const { dashboard, getDashboardFromStorage, loading } = useStorage();
   const { isAuthenticated } = useContext(AuthContext);
   const Navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      Navigate("/login");
-    }
-  }, []);
+    useEffect(() => {
+      if (isAuthenticated) {
+        getDashboardFromStorage();
+        console.log("Dashboard fetched", dashboard);
+      }else{
+        Navigate("/login");
+      }
+    }, [isAuthenticated]);
+
 
   return (
-    <div className="flex flex-col items-center justify-center max-h-screen min-h-full bg-gray-100 p-4">
-      {loading && <p className="text-xl text-gray-700"><img src="https://github.com/Sagarpatidar0/Twitter-Extension/blob/main/images/Infinity.gif?raw=true" alt="" /></p>}
+    <div className="flex flex-col items-center justify-center  min-h-full bg-gray-100 p-4">
+      {loading && (
+        <p className="text-xl text-gray-700">
+          <Spinner />
+        </p>
+      )}
       {error && <p className="text-red-500">{error}</p>}
-      {isAuthenticated && !loading ? (
+      {isAuthenticated && !loading && dashboard ? (
         <>
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-center">
             <h1 className="text-2xl font-bold mb-4 text-orange-600">
-              Welcome {userData.name}
+              Welcome {dashboard.name}
+              {console.log(dashboard)}
             </h1>
             <p className="text-gray-700">
-              Email: <span className="text-black">{authData.email}</span>
+              Email: <span className="text-black">{dashboard.email}</span>
             </p>
-            {userData.verified ? (
+            {dashboard.verified ? (
               <p className="text-green-500">Status: Verified</p>
             ) : (
               <p className="text-red-500">Status: Not Verified</p>
             )}
-            {limit && (
+            {dashboard && (
               <p className="text-gray-700">
                 Search Token Remaining:{" "}
-                <span className="text-black">{limit.remaining_quota}</span>
+                <span className="text-black">{dashboard.remaining_quota}</span>
               </p>
             )}
             <button
