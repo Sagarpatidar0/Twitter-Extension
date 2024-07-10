@@ -72,7 +72,6 @@ module.exports = {
   cache: {
     type: 'filesystem', // Enable filesystem caching
   },
-  watch: true,
   devtool: 'source-map',
 
 };
