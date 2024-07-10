@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Twitter",
+  "name": "SmartTweet",
   "version": "1.0",
   "description": "Extension for auto reply to tweets with help of AI",
   "icons": {

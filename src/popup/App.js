@@ -6,15 +6,10 @@ import Footer from "../components/footer/Footer";
 import Home from "../components/Home";
 import { AuthProvider } from "../contexts/AuthContext";
 import Profiles from "../components/profile/Profile";
-
-const LoginPage = lazy(() => import("../components/login/Login"));
-const SignupPage = lazy(() => import("../components/signup/Signup"));
-const CreateProfileFormPage = lazy(() =>
-  import("../components/profile/Create")
-);
-const UpdateProfileFormPage = lazy(() =>
-  import("../components/profile/Update")
-);
+import LoginPage from "../components/login/Login"
+import SignupPage from "../components/signup/Signup"
+import CreateProfileFormPage from "../components/profile/Create"
+import UpdateProfileFormPage from "../components/profile/Update"
 
 function App() {
   return (

@@ -1,14 +1,13 @@
 import React from 'react'
-import './Navbar.css'
 
 export default function Navbar() {
-  return (
-    <div id='navbar'>
-        <div className="nav-item"></div>
-        <div className="nav-item font-bold">Twitter AI</div>
-        <div className="nav-item share">
-            <img src="images/share.png" alt="" />
-        </div>
+  return (<>
+    <div className="flex h-8 relative justify-center items-center bg-gray-700" id='navbar'>
+      <div className="font-bold text-sm">SmartTweet</div>
+      <div className="absolute right-0">
+        <img className='w-8 p-1 cursor-pointer' src="images/github-mark-white.png" alt="" />
+      </div>
     </div>
+  </>
   )
 }

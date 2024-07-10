@@ -89,8 +89,8 @@ const LoginForm = () => {
   }, [isAuthenticated]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xs">
+    <div className="flex flex-col items-center h-full bg-gray-100 p-4">
+      <div className="bg-white p-8 mt-10 rounded-lg shadow-lg w-full max-w-xs">
         <h1 className="text-2xl font-bold text-center mb-4 text-blue-500">
           Login
         </h1>
