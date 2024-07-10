@@ -283,7 +283,9 @@
             )[0];
             let extractedText = "";
             if (textElement) {
-              extractedText = textElement.innerText.split("\n")[4];
+              extractedText = textElement.innerText.split("\n");
+              extractedText = extractedText.slice(4,);
+              extractedText = extractedText.join(" ");
             }
             if (login && quotaRemaining > 0) {
               quotaRemaining--;

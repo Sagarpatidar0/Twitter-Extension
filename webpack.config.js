@@ -16,7 +16,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader:"babel-loader",
+          loader: "babel-loader",
           options: {
             cacheDirectory: true, // Enable caching for babel-loader
           },
@@ -38,13 +38,13 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/, 
+        test: /\.(png|jpg|gif|svg)$/,
         use: [
           {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-              outputPath: "images/", 
+              outputPath: "images/",
             },
           },
         ],
@@ -62,7 +62,9 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: "public/manifest.json", to: "" }, // Copies manifest.json to the root of dist
+        {
+          from: 'public/', to: '', globOptions: {ignore: ['**/popup.html']}
+        }
       ],
     }),
   ],
@@ -72,5 +74,5 @@ module.exports = {
   },
   watch: true,
   devtool: 'source-map',
-  
+
 };
