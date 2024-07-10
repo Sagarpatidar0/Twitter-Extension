@@ -23,9 +23,9 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-full bg-gray-50 p-4">
       {loading && (
-        <p className="text-xl text-gray-700">
+        <div className="text-xl text-gray-700">
           <Spinner />
-        </p>
+        </div >
       )}
       {error && <p className="text-red-500">{error}</p>}
       {isAuthenticated && !loading && dashboard ? (
