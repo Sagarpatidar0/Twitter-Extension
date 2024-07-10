@@ -31,7 +31,7 @@ export default function Home() {
       {isAuthenticated && !loading && dashboard ? (
         <>
           <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
-            <h1 className="text-3xl font-semibold mb-6 text-blue-500">
+            <h1 className="text-lg font-semibold mb-6 text-blue-500">
               Welcome, {dashboard.name}
               {console.log(dashboard)}
             </h1>
