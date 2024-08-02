@@ -46,6 +46,20 @@
     }
   };
 
+  const setquotaRemaining = async (quota) => {
+    try {
+      const result = await chrome.storage.local.get(["dashboard"]);
+      if (result.dashboard) {
+        const dashboard = result.dashboard;
+        // console.log("before Dash", dashboard);
+        dashboard.remaining_quota = quota;
+        // console.log("After Dash", dashboard);
+        await chrome.storage.local.set({ dashboard });
+      }
+    } catch (error) {
+      console.log("Error setting quota remaining", error);
+    }
+  }
   const fetchQuotaRemaining = async () => {
     if (!token || !login) return false;
 
@@ -67,7 +81,7 @@
       const data = await response.json();
       console.log("Quota data:", data);
       quotaRemaining = data.remaining_quota;
-
+      await setquotaRemaining(quotaRemaining);
       if (quotaRemaining === 0) {
         alert("You have exhausted your quota for today!");
       }
@@ -338,6 +352,7 @@
         const replyMsg = await response.json();
         console.log("API call data:", replyMsg);
         document.getElementById("ai-reply-text").innerText = replyMsg.response;
+        await setquotaRemaining(replyMsg.remaining_quota);
       } catch (error) {
         console.error(
           "There has been a problem with your fetch operation:",
